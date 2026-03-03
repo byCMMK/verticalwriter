@@ -2,9 +2,29 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>CMMK</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&family=Noto+Sans+KR:wght@300;400&family=Gowun+Dodum&family=Gowun+Batang&family=Nanum+Myeongjo:wght@400;700&family=Nanum+Gothic&family=IBM+Plex+Mono:wght@300;400&family=Barlow:ital,wght@1,800&display=swap" rel="stylesheet">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CMMK">
+<meta name="theme-color" content="#1a1a1a">
+<link rel="manifest" href="data:application/json;charset=utf-8,{
+  &quot;name&quot;: &quot;CMMK&quot;,
+  &quot;short_name&quot;: &quot;CMMK&quot;,
+  &quot;start_url&quot;: &quot;.&quot;,
+  &quot;display&quot;: &quot;standalone&quot;,
+  &quot;background_color&quot;: &quot;#1a1a1a&quot;,
+  &quot;theme_color&quot;: &quot;#1a1a1a&quot;,
+  &quot;orientation&quot;: &quot;any&quot;,
+  &quot;icons&quot;: [{
+    &quot;src&quot;: &quot;data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%231a1a1a'/><text x='50%25' y='58%25' font-family='serif' font-size='260' font-weight='bold' font-style='italic' fill='%23c8a96e' text-anchor='middle' dominant-baseline='middle'>C</text></svg>&quot;,
+    &quot;sizes&quot;: &quot;512x512&quot;,
+    &quot;type&quot;: &quot;image/svg+xml&quot;,
+    &quot;purpose&quot;: &quot;any maskable&quot;
+  }]
+}">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400&family=Gowun+Dodum&family=Gowun+Batang&family=Nanum+Myeongjo:wght@400;700&family=Nanum+Gothic&family=IBM+Plex+Mono:wght@300;400&family=Barlow:ital,wght@1,800&display=swap" rel="stylesheet">
 <style>
 
 #editor div, #editor p {
@@ -39,30 +59,30 @@ body.zen-mode .current-line {
 @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#ebebeb;--text:#2c1810;--ph:#b0a89c;
-  --toolbar:#1a1a1a;--tb-text:#ddd;--tb-btn:#252525;--tb-bd:#3a3a3a;
-  --accent:#c8a96e;--sep:#333;
-  --sb-bg:rgba(26,26,26,0.85);--sb-text:#777;
-  --fl-bg:rgba(26,26,26,0.85);--col-rule:rgba(160,140,100,0.3);
-  --grape-bg:#fdfaf4;--grape-text:#1c1410;--grape-sub:#888;
-  --grape-panel-bg:#f5f0e8;--grape-panel-bd:#ddd5c0;
-  --grape-dow:#aaa;--grape-nav-bd:#ccc;
-  --grape-empty:#e8e0d0;--grape-filled:#7c3aed;
-  --grape-close-bg:#ede8de;--grape-close-bd:#ccc;--grape-close-text:#444;
-  --grape-input-bg:#fff;--grape-input-bd:#ccc;
+  --bg:#ebebeb;--text:#2a2a2a;--ph:#9aa0ac;
+  --toolbar:#1c2028;--tb-text:#b8c0cc;--tb-btn:#242a34;--tb-bd:#323848;
+  --accent:#5c6880;--sep:#2a3040;
+  --sb-bg:rgba(18,20,28,0.90);--sb-text:#5c6475;
+  --fl-bg:rgba(18,20,28,0.90);--col-rule:rgba(92,104,128,0.22);
+  --grape-bg:#f0f1f4;--grape-text:#1e2230;--grape-sub:#7a8494;
+  --grape-panel-bg:#e6e8ee;--grape-panel-bd:#c8ccd8;
+  --grape-dow:#9aa0b0;--grape-nav-bd:#bcc0cc;
+  --grape-empty:#d4d8e0;--grape-filled:#4a5878;
+  --grape-close-bg:#dadeea;--grape-close-bd:#bcc0cc;--grape-close-text:#384050;
+  --grape-input-bg:#f2f3f7;--grape-input-bd:#bcc0cc;
 }
 body.dark{
-  --bg:#0f0e0c;--text:#c8c0b0;--ph:#383430;
-  --toolbar:#0a0908;--tb-text:#999;--tb-btn:#141210;--tb-bd:#222;
-  --accent:#c8a96e;--sep:#1a1a1a;
-  --sb-bg:rgba(5,5,4,0.95);--sb-text:#444;
-  --fl-bg:rgba(5,5,4,0.95);--col-rule:rgba(255,255,255,0.06);
-  --grape-bg:#0f0e0c;--grape-text:#c8c0b0;--grape-sub:#444;
-  --grape-panel-bg:#111008;--grape-panel-bd:#222018;
-  --grape-dow:#333;--grape-nav-bd:#2a2a2a;
-  --grape-empty:#111;--grape-filled:#7c3aed;
-  --grape-close-bg:#141210;--grape-close-bd:#2a2a2a;--grape-close-text:#888;
-  --grape-input-bg:#141210;--grape-input-bd:#2a2a2a;
+  --bg:#0f1014;--text:#d4d4d4;--ph:#30343e;
+  --toolbar:#0c0e14;--tb-text:#8898a8;--tb-btn:#141820;--tb-bd:#202838;
+  --accent:#5c6880;--sep:#181e28;
+  --sb-bg:rgba(8,10,14,0.95);--sb-text:#3c4454;
+  --fl-bg:rgba(8,10,14,0.95);--col-rule:rgba(92,104,128,0.12);
+  --grape-bg:#0f1014;--grape-text:#b8c0cc;--grape-sub:#3c4454;
+  --grape-panel-bg:#131820;--grape-panel-bd:#1e2838;
+  --grape-dow:#28303c;--grape-nav-bd:#222a38;
+  --grape-empty:#181e28;--grape-filled:#4a5878;
+  --grape-close-bg:#131820;--grape-close-bd:#222a38;--grape-close-text:#6878a0;
+  --grape-input-bg:#131820;--grape-input-bd:#222a38;
 }
 html,body{height:100%;width:100%;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:#111;transition:background 0.3s}
 
@@ -111,8 +131,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
   border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer;
   backdrop-filter:blur(4px);white-space:nowrap;transition:background .15s;
 }
-.float-btn:hover{background:rgba(200,169,110,.2)}
-.float-btn.on{background:rgba(200,169,110,.25);border-color:var(--accent)}
+.float-btn:hover{background:rgba(92,104,128,.2)}
+.float-btn.on{background:rgba(92,104,128,.28);border-color:var(--accent)}
+.float-sep{width:1px;height:16px;background:var(--tb-bd);flex-shrink:0;opacity:0.6}
 
 #editor-wrap{
   position:fixed;top:52px;left:0;right:0;bottom:0;
@@ -135,7 +156,7 @@ body.menu-hidden #editor-wrap{top:0}
 #editor{
   position:relative;z-index:1;outline:none;
   color:var(--text);word-break:keep-all;overflow-wrap:break-word;
-  font-family:'Noto Serif KR',serif;font-size:21px;line-height:1.9;
+  font-family:'Noto Serif KR',serif;font-size:21px;line-height:1.9;font-weight:500;
   text-align:left;transition:color .3s;
 }
 #editor:empty::before{content:attr(data-placeholder);color:var(--ph);pointer-events:none;display:block}
@@ -196,7 +217,7 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
 <body>
 
 <div id="toolbar">
-  <span class="brand">CMMK</span>
+  <span class="brand" onclick="location.reload()" style="cursor:pointer" title="새로고침">CMMK</span>
   <div class="sep"></div>
   <span class="lbl">글꼴</span>
   <select id="fontFamily" onchange="applyStyle()">
@@ -220,9 +241,19 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
   </select>
   <div class="sep"></div>
   <span class="lbl">행간</span>
-  <input type="range" id="lineHeight" min="1.2" max="3.0" step="0.05" value="1.9"
-    oninput="applyStyle();sv('lhv',(+this.value).toFixed(2))">
-  <span class="val" id="lhv">1.90</span>
+  <select id="lineHeight" onchange="applyStyle()">
+    <option value="1.50">1.50</option>
+    <option value="1.55">1.55</option>
+    <option value="1.60">1.60</option>
+    <option value="1.65">1.65</option>
+    <option value="1.70">1.70</option>
+    <option value="1.75">1.75</option>
+    <option value="1.80">1.80</option>
+    <option value="1.85" selected>1.85</option>
+    <option value="1.90">1.90</option>
+    <option value="1.95">1.95</option>
+    <option value="2.00">2.00</option>
+  </select>
   <div class="sep"></div>
   <button class="tb-btn"    id="c1" onclick="setCols(1)">1단</button>
   <button class="tb-btn on" id="c2" onclick="setCols(2)">2단</button>
@@ -233,19 +264,19 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
   <div class="sep"></div>
 <button class="tb-btn" onclick="saveFile()">저장 ↓</button>
 <button class="tb-btn" onclick="copyAllText()">복사📋</button>
+<button class="tb-btn" onclick="openBackup()">💾</button>
 <div class="spacer"></div>
 
 
 </div>
 
 <div id="float-btns">
-  <button class="float-btn" id="fs-btn"   onclick="toggleFullscreen()">⛶ 전체화면</button>
-  <button class="float-btn" id="zen-btn" onclick="toggleZenMode()">💡 집중 모드</button> 
-  <button class="float-btn" id="dark-btn" onclick="toggleDark()">🌙 다크</button>
-  <button class="float-btn"               onclick="openGrape()">🍇 포도밭</button>
- <button class="float-btn" id="podo-float" onclick="openPodo()">⏳ 타이머</button> 
-  <button class="float-btn" id="menu-btn" onclick="toggleMenu()">메뉴 ▲</button>
-  </div>
+  <button class="float-btn" id="fs-btn"    onclick="toggleFullscreen()">⛶ 전체 화면</button>
+  <button class="float-btn" id="zen-btn"   onclick="toggleZenMode()">💡 집중 모드</button>
+  <button class="float-btn" id="dark-btn"  onclick="toggleDark()">🌙 다크 모드</button>
+  <button class="float-btn"                onclick="openGrape()">🍇 포도밭</button>
+  <button class="float-btn" id="podo-float" onclick="openPodo()">⏳ 타이머</button>
+  <button class="float-btn" id="menu-btn"  onclick="toggleMenu()">메뉴 ▲</button>
 </div>
 
 <div id="editor-wrap" class="mode-columns">
@@ -254,6 +285,17 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
     data-placeholder="여기에 글을 쓰세요..."
     oninput="onEdit()"
     onkeydown="handleKey(event)"></div>
+</div>
+
+<!-- 찾기 바 -->
+<div id="find-bar" style="display:none;position:fixed;bottom:26px;left:0;right:0;z-index:201;background:var(--toolbar);border-top:1px solid var(--tb-bd);padding:6px 14px;align-items:center;gap:8px">
+  <input id="find-input" type="text" placeholder="찾기..." autocomplete="off"
+    style="flex:1;background:var(--tb-btn);border:1px solid var(--tb-bd);color:var(--tb-text);border-radius:5px;padding:5px 8px;font-size:13px;font-family:inherit;outline:none"
+    oninput="findText()" onkeydown="findKeyNav(event)">
+  <span id="find-count" style="font-size:11px;color:var(--sb-text);white-space:nowrap;min-width:40px"></span>
+  <button onclick="findMove(-1)" style="background:var(--tb-btn);border:1px solid var(--tb-bd);color:var(--tb-text);border-radius:5px;padding:4px 8px;cursor:pointer;font-size:12px">▲</button>
+  <button onclick="findMove(1)"  style="background:var(--tb-btn);border:1px solid var(--tb-bd);color:var(--tb-text);border-radius:5px;padding:4px 8px;cursor:pointer;font-size:12px">▼</button>
+  <button onclick="closeFind()" style="background:none;border:none;color:var(--sb-text);font-size:16px;cursor:pointer;padding:0 4px">✕</button>
 </div>
 
 <div id="statusbar">
@@ -295,8 +337,25 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
   </div>
 </div>
 
+<!-- 백업 패널 -->
+<div id="backup-overlay" onclick="closeBackupOutside(event)" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:500;align-items:center;justify-content:center">
+  <div id="backup-panel" style="background:var(--grape-panel-bg);border:1px solid var(--grape-panel-bd);border-radius:14px;padding:24px;width:min(420px,94vw);max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
+    <h2 style="font-family:'Barlow',sans-serif;font-weight:800;font-style:italic;font-size:15px;letter-spacing:-.06em;color:var(--accent);margin-bottom:4px">💾 백업</h2>
+    <p style="font-size:11px;color:var(--grape-sub);margin-bottom:14px">자동저장 시 스냅샷 보관 · 최근 10개</p>
+    <div id="backup-list" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:14px;min-height:60px"></div>
+    <!-- 미리보기 -->
+    <div id="backup-preview-wrap" style="display:none;margin-bottom:14px">
+      <div style="font-size:10px;color:var(--grape-sub);margin-bottom:5px">미리보기</div>
+      <div id="backup-preview" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:6px;padding:10px;font-size:12px;color:var(--grape-text);line-height:1.6;max-height:120px;overflow-y:auto;white-space:pre-wrap;word-break:break-all"></div>
+      <button id="backup-restore-btn" onclick="restoreBackup()" style="margin-top:8px;width:100%;padding:7px;background:var(--accent);border:none;color:#1a1a1a;border-radius:6px;font-size:12px;font-family:inherit;font-weight:bold;cursor:pointer">이 버전으로 복구</button>
+    </div>
+    <button onclick="closeBackup()" style="width:100%;padding:7px;background:var(--grape-close-bg);border:1px solid var(--grape-close-bd);color:var(--grape-close-text);border-radius:7px;font-size:12px;font-family:inherit;cursor:pointer">닫기</button>
+  </div>
+</div>
+
+
 <script>
-let podoSeconds = 1500; // 기본 25분
+let podoSeconds = 0;
 let podoInterval = null;
 let isPodoRunning = false;
 
@@ -395,7 +454,9 @@ function applyStyle(){
   const px=getPadX();
   const padTop=lineH*1.5;   // 첫 줄 비워두기
   const padBot=currentCols>1 ? lineH*2 : lineH+26;
-  editor.style.fontFamily=document.getElementById('fontFamily').value;
+  const ff=document.getElementById('fontFamily').value;
+  editor.style.fontFamily=ff;
+  editor.style.fontWeight=ff.includes('Noto Serif')?'500':'400';
   editor.style.fontSize=fs+'px';
   editor.style.lineHeight=lh;
   editor.style.paddingLeft=px+'px';
@@ -508,6 +569,10 @@ function replaceDashes(){
 editor.addEventListener('input',()=>{if(!isComposing)replaceDashes();});
 
 function handleKey(e){
+  // Ctrl+F: 찾기
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='f'){
+    e.preventDefault(); openFind(); return;
+  }
 // 1. 볼드(Ctrl + B) 및 이탤릭(Ctrl + I) 단축키 추가
   if (e.ctrlKey || e.metaKey) {
     const key = e.key.toLowerCase();
@@ -629,7 +694,7 @@ function toggleFullscreen(){
   document.addEventListener(ev,()=>{
     isFullscreen=!!(document.fullscreenElement||document.webkitFullscreenElement);
     const btn=document.getElementById('fs-btn');
-    btn.textContent=isFullscreen?'✕ 전체화면':'⛶ 전체화면';
+    btn.textContent=isFullscreen?'✕ 전체 화면':'⛶ 전체 화면';
     btn.classList.toggle('on',isFullscreen);
     updateOverlayVisibility();
     setTimeout(()=>applyStyle(),100);
@@ -639,7 +704,7 @@ function toggleDark(){
   darkMode=!darkMode;
   document.body.classList.toggle('dark',darkMode);
   const btn=document.getElementById('dark-btn');
-  btn.textContent=darkMode?'☀ 라이트':'🌙 다크';
+  btn.textContent=darkMode?'☀ 라이트 모드':'🌙 다크 모드';
   btn.classList.toggle('on',darkMode);
   drawRuled();
 }
@@ -647,12 +712,109 @@ function setAlign(a){editor.style.textAlign=a}
 
 /* ── 임시저장 ── */
 const DRAFT_KEY='wt-draft';
+const BACKUP_KEY='wt-backups';
+const CURSOR_KEY='wt-cursor';
 let saveTimer=null;
+
+/* ── 커서 위치 저장/복원 ── */
+function saveCursorPos(){
+  try{
+    const sel=window.getSelection();
+    if(!sel||!sel.rangeCount)return;
+    const range=sel.getRangeAt(0);
+    const pre=range.cloneRange();
+    pre.selectNodeContents(editor);
+    pre.setEnd(range.startContainer,range.startOffset);
+    localStorage.setItem(CURSOR_KEY,pre.toString().length);
+  }catch(e){}
+}
+function restoreCursorPos(){
+  try{
+    const pos=parseInt(localStorage.getItem(CURSOR_KEY)||'0');
+    if(!pos)return;
+    const walk=(node,remaining)=>{
+      if(node.nodeType===Node.TEXT_NODE){
+        if(remaining[0]<=node.textContent.length){
+          const r=document.createRange();
+          r.setStart(node,remaining[0]);r.collapse(true);
+          const sel=window.getSelection();sel.removeAllRanges();sel.addRange(r);
+          // 해당 위치로 스크롤
+          const rect=r.getBoundingClientRect();
+          if(rect.top<0||rect.top>wrap.clientHeight)
+            wrap.scrollTop+=rect.top-wrap.clientHeight/2;
+          return true;
+        }
+        remaining[0]-=node.textContent.length;return false;
+      }
+      for(const child of node.childNodes){if(walk(child,remaining))return true;}
+      return false;
+    };
+    walk(editor,[pos]);
+  }catch(e){}
+}
+
+/* ── 자동 백업 ── */
+function saveBackup(html){
+  try{
+    const backups=JSON.parse(localStorage.getItem(BACKUP_KEY)||'[]');
+    const now=new Date();
+    const label=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    const text=(new DOMParser().parseFromString(html,'text/html').body.innerText||'').slice(0,80);
+    backups.unshift({ts:now.getTime(),label,preview:text,html});
+    if(backups.length>10)backups.pop();
+    localStorage.setItem(BACKUP_KEY,JSON.stringify(backups));
+  }catch(e){}
+}
+
+let _selectedBackupHtml='';
+function openBackup(){
+  const overlay=document.getElementById('backup-overlay');
+  overlay.style.display='flex';
+  renderBackupList();
+}
+function closeBackup(){document.getElementById('backup-overlay').style.display='none';}
+function closeBackupOutside(e){if(e.target===document.getElementById('backup-overlay'))closeBackup();}
+function renderBackupList(){
+  const list=document.getElementById('backup-list');
+  const pw=document.getElementById('backup-preview-wrap');
+  list.innerHTML=''; pw.style.display='none'; _selectedBackupHtml='';
+  let backups=[];
+  try{backups=JSON.parse(localStorage.getItem(BACKUP_KEY)||'[]');}catch(e){}
+  if(!backups.length){
+    list.innerHTML='<div style="font-size:12px;color:var(--grape-sub);text-align:center;padding:16px">저장된 백업이 없습니다</div>';
+    return;
+  }
+  backups.forEach((b,i)=>{
+    const el=document.createElement('div');
+    el.style.cssText='padding:9px 12px;border-radius:7px;border:1px solid var(--grape-panel-bd);cursor:pointer;transition:border-color .15s';
+    el.innerHTML=`<div style="font-size:11px;color:var(--accent);margin-bottom:3px">${b.label}</div><div style="font-size:12px;color:var(--grape-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.preview||'(내용 없음)'}</div>`;
+    el.onmouseenter=()=>el.style.borderColor='var(--accent)';
+    el.onmouseleave=()=>el.style.borderColor='var(--grape-panel-bd)';
+    el.onclick=()=>{
+      _selectedBackupHtml=b.html;
+      document.getElementById('backup-preview').textContent=b.preview||'(내용 없음)';
+      document.getElementById('backup-preview-wrap').style.display='block';
+    };
+    list.appendChild(el);
+  });
+}
+function restoreBackup(){
+  if(!_selectedBackupHtml)return;
+  if(!confirm('현재 내용이 선택한 버전으로 교체됩니다. 계속할까요?'))return;
+  editor.innerHTML=_selectedBackupHtml;
+  try{localStorage.setItem(DRAFT_KEY,_selectedBackupHtml);}catch(e){}
+  closeBackup();
+  onEdit();
+}
+
 function autoSave(){
   clearTimeout(saveTimer);
   saveTimer=setTimeout(()=>{
     try{
-      localStorage.setItem(DRAFT_KEY,editor.innerHTML);
+      const html=editor.innerHTML;
+      localStorage.setItem(DRAFT_KEY,html);
+      saveBackup(html);
+      saveCursorPos();
       const lbl=document.getElementById('autosave-label');
       const now=new Date();
       const hm=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
@@ -662,6 +824,7 @@ function autoSave(){
   },2000);
 }
 try{const saved=localStorage.getItem(DRAFT_KEY);if(saved)editor.innerHTML=saved;}catch(e){}
+setTimeout(restoreCursorPos, 300);
 
 /* 오늘 쓴 글자수 기준: 파일 열 때 글자수를 기록 */
 const SESSION_KEY='wt-session-'+new Date().toISOString().slice(0,10);
@@ -794,7 +957,7 @@ function toggleZenMode() {
   isZenMode = !isZenMode;
   const btn = document.getElementById('zen-btn');
   document.body.classList.toggle('zen-mode', isZenMode);
-  btn.classList.toggle('zen-on', isZenMode);
+  btn.classList.toggle('on', isZenMode);
   btn.textContent = isZenMode ? '✕ 집중 모드' : '💡 집중 모드';
   if (isZenMode) updateZenFocus();
   else document.querySelectorAll('.current-line').forEach(el => el.classList.remove('current-line'));
@@ -840,10 +1003,78 @@ editor.addEventListener('keyup', updateZenFocus);
 editor.addEventListener('mouseup', updateZenFocus);
 editor.addEventListener('input', updateZenFocus);
 
+/* ── 찾기 ── */
+let findMatches=[], findIdx=0;
+const FIND_MARK='cmmk-highlight';
+
+function openFind(){
+  const bar=document.getElementById('find-bar');
+  bar.style.display='flex';
+  document.getElementById('find-input').focus();
+  document.getElementById('find-input').select();
+}
+function closeFind(){
+  document.getElementById('find-bar').style.display='none';
+  clearFindMarks();
+  findMatches=[];
+  document.getElementById('find-count').textContent='';
+}
+function clearFindMarks(){
+  document.querySelectorAll('mark.'+FIND_MARK).forEach(m=>{
+    m.replaceWith(...m.childNodes);
+  });
+  editor.normalize();
+}
+function findText(){
+  clearFindMarks(); findMatches=[]; findIdx=0;
+  const q=document.getElementById('find-input').value;
+  if(!q){document.getElementById('find-count').textContent='';return;}
+  const walker=document.createTreeWalker(editor,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+    const text=node.textContent, lq=q.toLowerCase(), lt=text.toLowerCase();
+    let pos=0, idx;
+    while((idx=lt.indexOf(lq,pos))!==-1){
+      const before=text.slice(0,idx), match=text.slice(idx,idx+q.length), after=text.slice(idx+q.length);
+      const mark=document.createElement('mark');
+      mark.className=FIND_MARK;
+      mark.style.cssText='background:#f0c040;color:#1a1a1a;border-radius:2px;';
+      mark.textContent=match;
+      const frag=document.createDocumentFragment();
+      if(before)frag.appendChild(document.createTextNode(before));
+      frag.appendChild(mark); findMatches.push(mark);
+      if(after)frag.appendChild(document.createTextNode(after));
+      node.replaceWith(frag); pos=0; return;
+    }
+  });
+  document.getElementById('find-count').textContent=findMatches.length?`1 / ${findMatches.length}`:'없음';
+  if(findMatches.length){findIdx=0;scrollToMatch(0);}
+}
+function scrollToMatch(i){
+  findMatches.forEach((m,j)=>m.style.background=j===i?'#f08000':'#f0c040');
+  findMatches[i]?.scrollIntoView({block:'center',behavior:'smooth'});
+  document.getElementById('find-count').textContent=`${i+1} / ${findMatches.length}`;
+}
+function findMove(dir){
+  if(!findMatches.length)return;
+  findIdx=(findIdx+dir+findMatches.length)%findMatches.length;
+  scrollToMatch(findIdx);
+}
+function findKeyNav(e){
+  if(e.key==='Enter'){e.preventDefault();findMove(e.shiftKey?-1:1);}
+  if(e.key==='Escape'){closeFind();}
+}
+// 전역 Ctrl+F도 가로채기
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='f'){e.preventDefault();openFind();}
+  if(e.key==='Escape'&&document.getElementById('find-bar').style.display==='flex')closeFind();
+});
+
 </script> <div id="podo-overlay" onclick="if(event.target===this)closePodo()">
   <div id="podo-panel">
     <h2>⏳ PODOMODORO</h2>
-    <div id="podo-display">25:00</div>
+    <div id="podo-display">00:00</div>
     <div class="podo-btns">
       <button class="podo-btn" onclick="setPodo(15)">15분</button>
       <button class="podo-btn" onclick="setPodo(20)">20분</button>
@@ -853,6 +1084,31 @@ editor.addEventListener('input', updateZenFocus);
     <button id="podo-close" onclick="closePodo()">닫기</button>
   </div>
 </div>
+
+<script>
+// PWA 서비스워커 — 오프라인 캐시
+if('serviceWorker' in navigator){
+  const swCode=`
+    const CACHE='cmmk-v1';
+    self.addEventListener('install',e=>{
+      e.waitUntil(caches.open(CACHE).then(c=>c.addAll([location.pathname||'/'])));
+      self.skipWaiting();
+    });
+    self.addEventListener('activate',e=>{self.clients.claim();});
+    self.addEventListener('fetch',e=>{
+      e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{
+        const rc=res.clone();
+        caches.open(CACHE).then(c=>c.put(e.request,rc));
+        return res;
+      })));
+    });
+  `;
+  const blob=new Blob([swCode],{type:'application/javascript'});
+  const swUrl=URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl).catch(()=>{});
+}
+</script>
+
 
 </body>
 </html>
