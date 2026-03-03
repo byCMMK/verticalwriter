@@ -28,23 +28,19 @@
 <style>
 
 #editor div, #editor p {
-  text-indent: 1em; /* 1글자만큼 들여쓰기 */
-  margin: 0;        /* 문단 사이 간격 제거 (원고지 스타일) */
+  text-indent: 1em;
+  margin: 0;
 }
 
-/* 집중 모드: 전체 흐리게 */
 body.zen-mode #editor {
   color: var(--ph) !important;
   transition: color 0.3s ease;
 }
-
-/* 현재 줄만 밝게 표시 */
 body.zen-mode .current-line {
   color: var(--text) !important;
   opacity: 1 !important;
 }
 
-/* 뽀모도로 팝업 스타일 */
 #podo-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); backdrop-filter:blur(4px); z-index:501; align-items:center; justify-content:center; }
 #podo-overlay.open { display:flex; }
 #podo-panel { background:var(--grape-panel-bg); border:1px solid var(--grape-panel-bd); border-radius:14px; padding:24px; width:min(320px, 85vw); text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
@@ -141,7 +137,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
   background:var(--bg);overflow:hidden;
 }
 body.menu-hidden #editor-wrap{top:0}
-/* fs-hidden: editor-wrap bottom 고정 유지 — 레이아웃 재계산 방지 */
 #ruled-canvas{position:absolute;top:0;left:0;pointer-events:none;z-index:0;display:block}
 #editor-wrap.mode-single{overflow-y:auto;overflow-x:hidden}
 #editor-wrap.mode-columns{
@@ -189,7 +184,6 @@ body.menu-hidden #editor-wrap{top:0}
 .grape-goal-row label{color:var(--grape-sub);font-size:11px;white-space:nowrap}
 .grape-goal-row input{background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:4px 8px;font-size:12px;width:80px;outline:none;font-family:inherit;transition:background .3s,border-color .3s,color .3s}
 .grape-goal-row input:focus{border-color:var(--accent)}
-.grape-goal-row span{color:var(--grape-sub);font-size:11px}
 .grape-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .grape-nav-btn{background:none;border:1px solid var(--grape-nav-bd);color:var(--accent);border-radius:5px;padding:3px 10px;font-size:14px;cursor:pointer;transition:border-color .15s}
 .grape-nav-btn:hover{border-color:var(--accent)}
@@ -266,8 +260,6 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
 <button class="tb-btn" onclick="copyAllText()">복사📋</button>
 <button class="tb-btn" onclick="openBackup()">💾</button>
 <div class="spacer"></div>
-
-
 </div>
 
 <div id="float-btns">
@@ -343,7 +335,6 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
     <h2 style="font-family:'Barlow',sans-serif;font-weight:800;font-style:italic;font-size:15px;letter-spacing:-.06em;color:var(--accent);margin-bottom:4px">💾 백업</h2>
     <p style="font-size:11px;color:var(--grape-sub);margin-bottom:14px">자동저장 시 스냅샷 보관 · 최근 10개</p>
     <div id="backup-list" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:14px;min-height:60px"></div>
-    <!-- 미리보기 -->
     <div id="backup-preview-wrap" style="display:none;margin-bottom:14px">
       <div style="font-size:10px;color:var(--grape-sub);margin-bottom:5px">미리보기</div>
       <div id="backup-preview" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:6px;padding:10px;font-size:12px;color:var(--grape-text);line-height:1.6;max-height:120px;overflow-y:auto;white-space:pre-wrap;word-break:break-all"></div>
@@ -352,7 +343,6 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
     <button onclick="closeBackup()" style="width:100%;padding:7px;background:var(--grape-close-bg);border:1px solid var(--grape-close-bd);color:var(--grape-close-text);border-radius:7px;font-size:12px;font-family:inherit;cursor:pointer">닫기</button>
   </div>
 </div>
-
 
 <script>
 let podoSeconds = 0;
@@ -373,7 +363,6 @@ function updatePodoDisplay() {
   const s = podoSeconds % 60;
   const timeStr = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   document.getElementById('podo-display').textContent = timeStr;
-  // 타이머가 작동 중이면 플로팅 버튼에도 표시
   if(isPodoRunning) document.getElementById('podo-float').textContent = `⏳ ${timeStr}`;
   else document.getElementById('podo-float').textContent = `⏳ 타이머`;
 }
@@ -406,6 +395,7 @@ function stopPodo() {
   document.getElementById('podo-panel').classList.remove('timer-running');
   updatePodoDisplay();
 }
+
 const editor    = document.getElementById('editor');
 const wrap      = document.getElementById('editor-wrap');
 const toolbar   = document.getElementById('toolbar');
@@ -415,13 +405,24 @@ const statusbar = document.getElementById('statusbar');
 
 let menuVisible=true, darkMode=false, ruledOn=true, currentCols=2, isFullscreen=false;
 
+/* ── 시스템 다크모드 ── */
+function applySystemDark(){
+  darkMode=window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.body.classList.toggle('dark',darkMode);
+  const btn=document.getElementById('dark-btn');
+  btn.textContent=darkMode?'☀ 라이트 모드':'🌙 다크 모드';
+  btn.classList.toggle('on',darkMode);
+  drawRuled();
+}
+applySystemDark();
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applySystemDark);
+
 function getFontSize(){return parseInt(document.getElementById('fontSize').value)}
 function getLineHeight(){return parseFloat(document.getElementById('lineHeight').value)}
 function getLineH(){return Math.round(getFontSize()*getLineHeight())}
 function getPadX(){return window.innerWidth<600?28:80}
 function sv(id,val){document.getElementById(id).textContent=val}
 
-/* ── 전체 복사 ── */
 function copyAllText() {
   const text = editor.innerText || "";
   if (!text.trim()) { alert("복사할 내용이 없습니다."); return; }
@@ -447,12 +448,11 @@ function fallbackCopy(text, done) {
   document.body.removeChild(ta);
 }
 
-/* ── 스타일 ── */
 function applyStyle(){
   const fs=getFontSize(), lh=getLineHeight();
   const lineH=Math.round(fs*lh);
   const px=getPadX();
-  const padTop=lineH*1.5;   // 첫 줄 비워두기
+  const padTop=lineH*1.5;
   const padBot=currentCols>1 ? lineH*2 : lineH+26;
   const ff=document.getElementById('fontFamily').value;
   editor.style.fontFamily=ff;
@@ -467,18 +467,21 @@ function applyStyle(){
   if(currentCols>1)applyColumnLayout();
 }
 
-/* ── 줄노트 ── */
 function drawRuled(lineH, padTop){
   if(lineH===undefined){lineH=getLineH();padTop=lineH*1.5;}
-  // 1단: 캔버스 숨기고 종료
   if(currentCols===1){canvas.style.display='none';return;}
   canvas.style.display='block';
   const isDark=document.body.classList.contains('dark');
-  const W=Math.max(wrap.scrollWidth,wrap.clientWidth);
-  const H=Math.max(wrap.scrollHeight,wrap.clientHeight,editor.scrollHeight+lineH*2)+lineH;
+  const pageW=wrap.clientWidth;
+  const pageH=wrap.clientHeight;
+  const pageCount=Math.ceil(editor.scrollWidth/pageW)||1;
+  const W=pageW*pageCount;
+  const H=pageH;
   if(W<10||H<10){setTimeout(()=>drawRuled(lineH,padTop),50);return;}
-  canvas.width=W;canvas.height=H;
-  canvas.style.width=W+'px';canvas.style.height=H+'px';
+  if(canvas.width!==W||canvas.height!==H){
+    canvas.width=W;canvas.height=H;
+    canvas.style.width=W+'px';canvas.style.height=H+'px';
+  }
   const ctx=canvas.getContext('2d');
   ctx.clearRect(0,0,W,H);
   if(!ruledOn)return;
@@ -497,14 +500,12 @@ function toggleRuled(){
   drawRuled();
 }
 
-/* ── 다단 ── */
 function applyColumnLayout(){
   const vw=window.innerWidth, gap=currentCols===2?80:52;
   const lineH=getLineH();
   editor.style.width=vw+'px'; editor.style.minWidth=vw+'px';
   editor.style.columnCount=String(currentCols); editor.style.columnGap=gap+'px';
   editor.style.columnWidth='';
-  // 높이를 wrap보다 줄 하나 더 크게 → 마지막 줄 아래도 입력 가능
   editor.style.height=(wrap.clientHeight+lineH)+'px';
 }
 function setCols(n){
@@ -517,7 +518,6 @@ function setCols(n){
     editor.style.columnWidth=''; editor.style.columnFill='';
     editor.style.height=''; wrap.style.scrollSnapType='';
     sv('page-ind-sb','');
-    // 1단: 줄노트 강제 off
     ruledOn=false;
     document.getElementById('ruled-btn').textContent='OFF';
     document.getElementById('ruled-btn').classList.remove('on');
@@ -525,7 +525,6 @@ function setCols(n){
     wrap.className='mode-columns';
     editor.style.columnFill='auto';
     applyColumnLayout(); updatePageInd();
-    // 다단: 줄노트 강제 on
     ruledOn=true;
     document.getElementById('ruled-btn').textContent='ON';
     document.getElementById('ruled-btn').classList.add('on');
@@ -569,44 +568,18 @@ function replaceDashes(){
 editor.addEventListener('input',()=>{if(!isComposing)replaceDashes();});
 
 function handleKey(e){
-  // Ctrl+F: 찾기
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='f'){
     e.preventDefault(); openFind(); return;
   }
-// 1. 볼드(Ctrl + B) 및 이탤릭(Ctrl + I) 단축키 추가
   if (e.ctrlKey || e.metaKey) {
     const key = e.key.toLowerCase();
-    if (key === 'b') {
-      e.preventDefault();
-      document.execCommand('bold', false, null);
-      return;
-    }
-    if (key === 'i') {
-      e.preventDefault();
-      document.execCommand('italic', false, null);
-      return;
-    }
+    if (key === 'b') { e.preventDefault(); document.execCommand('bold',false,null); return; }
+    if (key === 'i') { e.preventDefault(); document.execCommand('italic',false,null); return; }
   }
   if(e.key==='Tab'&&!e.altKey&&!e.ctrlKey&&!e.metaKey){
     e.preventDefault();
     document.execCommand('insertText',false,'    ');
     return;
-  }
-  if(e.key===' '||e.key==='.'||e.key==='…'){
-    const sel=window.getSelection();
-    if(!sel||!sel.rangeCount)return;
-    const range=sel.getRangeAt(0);
-    const node=range.startContainer;
-    if(node.nodeType!==Node.TEXT_NODE)return;
-    const text=node.textContent, offset=range.startOffset;
-    if(offset>=1&&text[offset-1]==='-'&&(offset<2||text[offset-2]!=='-')){
-      e.preventDefault();
-      mutating=true;
-      node.textContent=text.slice(0,offset-1)+'―'+e.key+text.slice(offset);
-      const r=document.createRange();r.setStart(node,offset+1);r.collapse(true);
-      sel.removeAllRanges();sel.addRange(r);
-      mutating=false;
-    }
   }
 }
 
@@ -648,16 +621,16 @@ editor.addEventListener('paste',e=>{
   setTimeout(drawRuled,200);
 });
 
-/* ── 전체화면 + 메뉴 숨김 → 플로팅 & 상태바 숨김 ── */
-let floatHideTimer=null;
+/* ── 전체화면 + 메뉴 숨김 → 플로팅 & 상태바 숨김, 꾹 누르면 표시 ── */
+let floatHideTimer=null, longPressTimer=null;
+
 function updateOverlayVisibility(){
   const hide=isFullscreen&&!menuVisible;
   floatBtns.classList.toggle('hide',hide);
   statusbar.classList.toggle('hide',hide);
-  /* fs-hidden(bottom:0) 제거 — editor-wrap 레이아웃 재계산 방지 */
 }
+
 function showOverlayTemporary(){
-  if(!isFullscreen||menuVisible)return;
   floatBtns.classList.remove('hide');
   statusbar.classList.remove('hide');
   clearTimeout(floatHideTimer);
@@ -668,9 +641,14 @@ function showOverlayTemporary(){
     }
   },3000);
 }
-editor.addEventListener('touchstart',()=>{
-  if(isFullscreen&&!menuVisible)showOverlayTemporary();
+
+/* 꾹 누르기: touchstart에서 500ms 후 표시 */
+wrap.addEventListener('touchstart',e=>{
+  if(!isFullscreen||menuVisible)return;
+  longPressTimer=setTimeout(()=>showOverlayTemporary(),500);
 },{passive:true});
+wrap.addEventListener('touchend',()=>clearTimeout(longPressTimer),{passive:true});
+wrap.addEventListener('touchmove',()=>clearTimeout(longPressTimer),{passive:true});
 
 function toggleMenu(){
   menuVisible=!menuVisible;
@@ -678,7 +656,6 @@ function toggleMenu(){
   document.body.classList.toggle('menu-hidden',!menuVisible);
   document.getElementById('menu-btn').textContent=menuVisible?'메뉴 ▲':'메뉴 ▼';
   updateOverlayVisibility();
-  // 트랜지션(300ms) 중간과 끝 두 번 재계산 — 크기 확정 후 안정적으로 그림
   setTimeout(()=>{applyStyle();},150);
   setTimeout(()=>{applyStyle();setTimeout(drawRuled,30);},340);
 }
@@ -700,6 +677,7 @@ function toggleFullscreen(){
     setTimeout(()=>applyStyle(),100);
   })
 );
+
 function toggleDark(){
   darkMode=!darkMode;
   document.body.classList.toggle('dark',darkMode);
@@ -708,6 +686,7 @@ function toggleDark(){
   btn.classList.toggle('on',darkMode);
   drawRuled();
 }
+
 function setAlign(a){editor.style.textAlign=a}
 
 /* ── 임시저장 ── */
@@ -716,7 +695,6 @@ const BACKUP_KEY='wt-backups';
 const CURSOR_KEY='wt-cursor';
 let saveTimer=null;
 
-/* ── 커서 위치 저장/복원 ── */
 function saveCursorPos(){
   try{
     const sel=window.getSelection();
@@ -738,7 +716,6 @@ function restoreCursorPos(){
           const r=document.createRange();
           r.setStart(node,remaining[0]);r.collapse(true);
           const sel=window.getSelection();sel.removeAllRanges();sel.addRange(r);
-          // 해당 위치로 스크롤
           const rect=r.getBoundingClientRect();
           if(rect.top<0||rect.top>wrap.clientHeight)
             wrap.scrollTop+=rect.top-wrap.clientHeight/2;
@@ -753,7 +730,6 @@ function restoreCursorPos(){
   }catch(e){}
 }
 
-/* ── 자동 백업 ── */
 function saveBackup(html){
   try{
     const backups=JSON.parse(localStorage.getItem(BACKUP_KEY)||'[]');
@@ -826,11 +802,9 @@ function autoSave(){
 try{const saved=localStorage.getItem(DRAFT_KEY);if(saved)editor.innerHTML=saved;}catch(e){}
 setTimeout(restoreCursorPos, 300);
 
-/* 오늘 쓴 글자수 기준: 파일 열 때 글자수를 기록 */
 const SESSION_KEY='wt-session-'+new Date().toISOString().slice(0,10);
 let baseChars=0;
 try{
-  // 오늘 세션 기준값이 있으면 사용, 없으면 현재 글자수로 초기화
   const stored=localStorage.getItem(SESSION_KEY);
   if(stored!==null){
     baseChars=parseInt(stored);
@@ -840,7 +814,6 @@ try{
   }
 }catch(e){}
 
-/* ── 통계 ── */
 function onEdit(){
   const text=editor.innerText||'';
   const chars=text.replace(/\s/g,'').length;
@@ -850,7 +823,6 @@ function onEdit(){
   sv('s-words','단어 '+words.toLocaleString());
   sv('s-lines','줄 '+lines);
   if(currentCols>1)setTimeout(updatePageInd,50);
-  if(chars%50===0)setTimeout(drawRuled,50);
   autoSave();
   updateGoalProgress(chars);
 }
@@ -863,7 +835,6 @@ function updateGoalProgress(chars){
   if(todayChars>=goal)markTodayGrape();
 }
 
-/* ── 저장 ── */
 function saveFile(){
   const blob=new Blob([editor.innerText],{type:'text/plain;charset=utf-8'});
   const a=document.createElement('a');
@@ -872,7 +843,6 @@ function saveFile(){
   a.click();
 }
 
-/* ── 포도밭 ── */
 const GRAPE_KEY='wt-grapes', GOAL_KEY='wt-goal';
 let grapeYear=new Date().getFullYear(), grapeMonth=new Date().getMonth();
 function todayStr(){return new Date().toISOString().slice(0,10)}
@@ -904,14 +874,11 @@ function moveMonth(dir){
 function openGrape(){
   grapeYear=new Date().getFullYear(); grapeMonth=new Date().getMonth();
   document.getElementById('grape-goal-input').value=getGoal();
-  // 오늘/어제/누적 글자수 표시
   const totalNow=(editor.innerText||'').replace(/\s/g,'').length;
   const todayTyped=Math.max(0,totalNow-baseChars);
   const yesterday=new Date(); yesterday.setDate(yesterday.getDate()-1);
   const yKey='wt-session-'+yesterday.toISOString().slice(0,10);
   const yBase=parseInt(localStorage.getItem(yKey)||'0');
-  // 어제 총 글자수 = 어제 저장된 draft 없으면 추정 불가 → session 기준값 표시
-  const yTyped=Math.max(0,yBase); // 어제 시작 기준값 (어제 쓴 양은 오늘 base - 어제 base로 추정)
   const todayBase=parseInt(localStorage.getItem(SESSION_KEY)||'0');
   const yWritten=Math.max(0,todayBase-yBase);
   sv('stat-today', todayTyped.toLocaleString());
@@ -951,7 +918,6 @@ function renderGrapeGrid(){
   }
 }
 
-/* ── 집중 모드 로직 ── */
 let isZenMode = false;
 function toggleZenMode() {
   isZenMode = !isZenMode;
@@ -963,7 +929,6 @@ function toggleZenMode() {
   else document.querySelectorAll('.current-line').forEach(el => el.classList.remove('current-line'));
   editor.focus();
 }
-
 function updateZenFocus() {
   if (!isZenMode) return;
   document.querySelectorAll('.current-line').forEach(el => el.classList.remove('current-line'));
@@ -976,29 +941,20 @@ function updateZenFocus() {
   }
 }
 
-
-/* ── 초기화 ── */
 const initGoal = getGoal();
 if (initGoal) {
   document.getElementById('goal-bar-wrap').style.display = 'block';
   document.getElementById('goal-pct').style.display = 'inline';
 }
 
-// 에디터 초기 설정
 editor.style.columnFill = 'auto';
-// height는 applyColumnLayout에서 설정됨
-
-// 문단 구분 및 포커스 설정
 editor.focus();
 document.execCommand('defaultParagraphSeparator', false, 'div');
-
-// 함수 실행
 applyColumnLayout();
 updatePageInd();
 applyStyle();
 setTimeout(drawRuled, 50);
 
-// ★ 중요: 집중 모드 실시간 감지를 위한 이벤트 연결
 editor.addEventListener('keyup', updateZenFocus);
 editor.addEventListener('mouseup', updateZenFocus);
 editor.addEventListener('input', updateZenFocus);
@@ -1065,13 +1021,13 @@ function findKeyNav(e){
   if(e.key==='Enter'){e.preventDefault();findMove(e.shiftKey?-1:1);}
   if(e.key==='Escape'){closeFind();}
 }
-// 전역 Ctrl+F도 가로채기
 document.addEventListener('keydown',e=>{
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='f'){e.preventDefault();openFind();}
   if(e.key==='Escape'&&document.getElementById('find-bar').style.display==='flex')closeFind();
 });
+</script>
 
-</script> <div id="podo-overlay" onclick="if(event.target===this)closePodo()">
+<div id="podo-overlay" onclick="if(event.target===this)closePodo()">
   <div id="podo-panel">
     <h2>⏳ PODOMODORO</h2>
     <div id="podo-display">00:00</div>
@@ -1086,7 +1042,6 @@ document.addEventListener('keydown',e=>{
 </div>
 
 <script>
-// PWA 서비스워커 — 오프라인 캐시
 if('serviceWorker' in navigator){
   const swCode=`
     const CACHE='cmmk-v1';
@@ -1108,7 +1063,5 @@ if('serviceWorker' in navigator){
   navigator.serviceWorker.register(swUrl).catch(()=>{});
 }
 </script>
-
-
 </body>
 </html>
