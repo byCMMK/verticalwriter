@@ -363,6 +363,7 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
     <div style="display:flex;gap:8px;margin-bottom:20px">
       <button onclick="saveFile()" style="flex:1;padding:10px;background:var(--accent);border:none;color:#1a1a1a;border-radius:8px;font-size:13px;font-family:inherit;font-weight:bold;cursor:pointer">파일로 저장 ↓</button>
       <button onclick="triggerLoad()" style="flex:1;padding:10px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer">불러오기 ↑</button>
+      <button onclick="newDoc()" style="flex:1;padding:10px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer">새 문서</button>
       <input id="load-file-input" type="file" accept=".txt" style="display:none" onchange="loadFile(event)">
     </div>
     <div style="font-size:11px;color:var(--grape-sub);margin-bottom:10px">자동저장 백업 · 최근 10개</div>
@@ -720,6 +721,16 @@ function loadFile(e){
     onEdit();editor.focus();
   };
   reader.readAsText(file,'UTF-8');
+}
+function newDoc(){
+  if(!confirm('현재 내용을 모두 지우고 새 문서를 시작할까요?\n(자동저장 백업에는 남아있어요)'))return;
+  saveBackup(editor.innerHTML);
+  editor.innerHTML='';
+  try{localStorage.removeItem(DRAFT_KEY);}catch(e){}
+  closeBackup();
+  baseChars=0;
+  onEdit();
+  editor.focus();
 }
 function closeBackup(){document.getElementById('backup-overlay').style.display='none';}
 function closeBackupOutside(e){if(e.target===document.getElementById('backup-overlay'))closeBackup();}
