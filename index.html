@@ -432,7 +432,7 @@ function getPadX(){return window.innerWidth<600?28:80}
 function sv(id,val){document.getElementById(id).textContent=val}
 
 function copyAllText(){
-  const text=editor.innerText||'';
+  const text=getCleanText();
   if(!text.trim()){alert('복사할 내용이 없습니다.');return;}
   const done=()=>{
     const lbl=document.getElementById('autosave-label');
@@ -475,14 +475,14 @@ function drawRuled(lineH,padTop){
   canvas.style.display='block';
   const isDark=document.body.classList.contains('dark');
   const pageW=wrap.clientWidth,pageH=wrap.clientHeight;
-  const pageCount=Math.ceil(editor.scrollWidth/pageW)||1;
-  const W=pageW*pageCount,H=pageH;
+  const W=pageW,H=pageH;
   if(W<10||H<10){setTimeout(()=>drawRuled(lineH,padTop),50);return;}
   if(canvas.width!==W||canvas.height!==H){
     canvas.width=W;canvas.height=H;
     canvas.style.width=W+'px';canvas.style.height=H+'px';
   }
   const ctx=canvas.getContext('2d');
+  if(!ctx){return;}
   ctx.clearRect(0,0,W,H);
   if(!ruledOn)return;
   /* 줄노트 라인: 다단 구분선과 동일한 색상 계열, 라이트/다크 모드 통일 */
@@ -548,24 +548,8 @@ window.addEventListener('resize',()=>{if(currentCols>1)applyColumnLayout();apply
 /* ── 자동변환 ── */
 let mutating=false,isComposing=false;
 editor.addEventListener('compositionstart',()=>{isComposing=true;});
-editor.addEventListener('compositionend',()=>{isComposing=false;setTimeout(replaceDashes,0);});
-function replaceDashes(){
-  if(mutating)return;
-  const sel=window.getSelection();
-  if(!sel||!sel.rangeCount)return;
-  const range=sel.getRangeAt(0);
-  const node=range.startContainer;
-  if(node.nodeType!==Node.TEXT_NODE)return;
-  const text=node.textContent,offset=range.startOffset;
-  if(offset>=2&&text.slice(offset-2,offset)==='--'){
-    mutating=true;
-    node.textContent=text.slice(0,offset-2)+'―'+text.slice(offset);
-    const r=document.createRange();r.setStart(node,offset-1);r.collapse(true);
-    sel.removeAllRanges();sel.addRange(r);
-    mutating=false;
-  }
-}
-editor.addEventListener('input',()=>{if(!isComposing)replaceDashes();});
+editor.addEventListener('compositionend',()=>{isComposing=false;});
+
 
 function handleKey(e){
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='f'){e.preventDefault();openFind();return;}
@@ -577,6 +561,11 @@ function handleKey(e){
   if(e.key==='Tab'&&!e.altKey&&!e.ctrlKey&&!e.metaKey){
     e.preventDefault();document.execCommand('insertText',false,'    ');return;
   }
+
+}
+
+function getCleanText(){
+  return (editor.innerText||'').replace(/\n\n\n+/g,'\n\n');
 }
 
 const observer=new MutationObserver(()=>{
@@ -587,6 +576,9 @@ const observer=new MutationObserver(()=>{
   const node=range.startContainer;
   if(node.nodeType!==Node.TEXT_NODE)return;
   let text=node.textContent,offset=range.startOffset,changed=false;
+  if(!changed&&text.slice(0,offset).endsWith(',,')){
+    const p=offset-2;text=text.slice(0,p)+'―'+text.slice(offset);offset=p+1;changed=true;
+  }
   if(!changed&&text.slice(0,offset).endsWith('...')){
     const p=offset-3;text=text.slice(0,p)+'…'+text.slice(offset);offset=p+1;changed=true;
   }
@@ -605,7 +597,16 @@ const observer=new MutationObserver(()=>{
     node.textContent=text;
     const r=document.createRange();r.setStart(node,offset);r.collapse(true);
     sel.removeAllRanges();sel.addRange(r);
-    mutating=false;
+    // 따옴표 변환 후 생긴 연속 빈 div 제거
+    setTimeout(()=>{
+      const divs=[...editor.children];
+      for(let i=divs.length-1;i>0;i--){
+        if(divs[i].innerHTML==='<br>'&&divs[i-1].innerHTML==='<br>'){
+          divs[i].remove();
+        }
+      }
+      mutating=false;
+    },0);
   }
 });
 observer.observe(editor,{characterData:true,subtree:true,childList:true});
@@ -799,7 +800,7 @@ function updateGoalProgress(chars){
   if(todayChars>=goal)markTodayGrape();
 }
 function saveFile(){
-  const blob=new Blob([editor.innerText],{type:'text/plain;charset=utf-8'});
+  const blob=new Blob([getCleanText()],{type:'text/plain;charset=utf-8'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
   a.download='CMMK_'+new Date().toISOString().slice(0,10)+'.txt';
