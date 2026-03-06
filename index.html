@@ -105,6 +105,11 @@ html,body{height:100%;width:100%;overflow:hidden;font-family:'Noto Sans KR',sans
 }
 .sep{width:1px;height:20px;background:var(--sep);margin:0 4px;flex-shrink:0}
 .lbl{color:var(--lbl-color);font-size:10px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;flex-shrink:0}
+
+.tb-ul{background:none;border:none;border-bottom:1px solid transparent;color:var(--tb-text);padding:6px 2px 4px 2px;font-size:12px;font-family:inherit;cursor:pointer;white-space:nowrap;flex-shrink:0;outline:none;transition:color .15s,border-color .15s;}
+.tb-ul:hover{color:var(--accent);}
+.tb-ul.on{color:var(--accent);border-bottom-color:var(--accent);}
+
 select,.tb-btn{
   background:var(--tb-btn);border:1px solid var(--tb-bd);
   color:var(--tb-text);border-radius:5px;padding:4px 8px;
@@ -128,12 +133,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
 }
 #float-btns.hide{opacity:0;pointer-events:none;transform:translateY(-8px)}
 .float-btn{
-  background:var(--fl-bg);border:1px solid var(--tb-bd);color:var(--accent);
-  border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer;
-  backdrop-filter:blur(4px);white-space:nowrap;transition:background .15s;
+  line-height:1.5;position:relative;top:2px;
+  background:var(--fl-bg);border:none;color:var(--accent);
+  border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;
+  white-space:nowrap;transition:background .15s;
 }
 .float-btn:hover{background:rgba(92,104,128,.2)}
-.float-btn.on{background:rgba(92,104,128,.28);border-color:var(--accent)}
+.float-btn.on{background:rgba(92,104,128,.28);}
 
 #editor-wrap{
   position:fixed;top:52px;left:0;right:0;bottom:0;
@@ -217,57 +223,64 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
 <div id="toolbar">
   <span class="brand" onclick="location.reload()" style="cursor:pointer" title="새로고침">CMMK</span>
   <div class="sep"></div>
-  <span class="lbl">Aa</span>
-  <select id="fontFamily" onchange="applyStyle();saveTypoSettings()">
-    <option value="'Noto Serif KR',serif">노토 세리프</option>
-    <option value="'Noto Sans KR',sans-serif">노토 산스</option>
-    <option value="'Gowun Batang',serif">고운 바탕</option>
-    <option value="'Gowun Dodum',sans-serif">고운 돋움</option>
-    <option value="'Nanum Myeongjo',serif">나눔 명조</option>
-    <option value="'Nanum Gothic',sans-serif">나눔 고딕</option>
-    <option value="'IBM Plex Mono',monospace">IBM Plex Mono</option>
-  </select>
+  <button class="tb-ul" onclick="toggleViewSettings()">보기</button>
+  <div id="view-group" style="display:none;align-items:center;gap:4px;flex-shrink:0">
+    <div class="sep"></div>
+    <span class="lbl">Aa</span>
+    <select id="fontFamily" onchange="applyStyle();saveTypoSettings()">
+      <option value="'Noto Serif KR',serif">노토 세리프</option>
+      <option value="'Noto Sans KR',sans-serif">노토 산스</option>
+      <option value="'Gowun Batang',serif">고운 바탕</option>
+      <option value="'Gowun Dodum',sans-serif">고운 돋움</option>
+      <option value="'Nanum Myeongjo',serif">나눔 명조</option>
+      <option value="'Nanum Gothic',sans-serif">나눔 고딕</option>
+      <option value="'IBM Plex Mono',monospace">IBM Plex Mono</option>
+    </select>
+    <div class="sep"></div>
+    <span class="lbl">T↕</span>
+    <select id="fontSize" onchange="applyStyle();saveTypoSettings()">
+      <option value="16">16px</option>
+      <option value="17">17px</option><option value="18">18px</option>
+      <option value="19">19px</option><option value="20">20px</option>
+      <option value="21">21px</option><option value="22" selected>22px</option>
+      <option value="24">24px</option><option value="26">26px</option>
+      <option value="28">28px</option>
+    </select>
+    <div class="sep"></div>
+    <span class="lbl">¶</span>
+    <select id="lineHeight" onchange="applyStyle();saveTypoSettings()">
+      <option value="1.50">1.50</option>
+      <option value="1.55">1.55</option>
+      <option value="1.60">1.60</option>
+      <option value="1.65">1.65</option>
+      <option value="1.70">1.70</option>
+      <option value="1.75">1.75</option>
+      <option value="1.80">1.80</option>
+      <option value="1.85" selected>1.85</option>
+      <option value="1.90">1.90</option>
+      <option value="1.95">1.95</option>
+      <option value="2.00">2.00</option>
+    </select>
+    <div class="sep"></div>
+    <button class="tb-btn"    id="c1" onclick="setCols(1)">1단</button>
+    <button class="tb-btn on" id="c2" onclick="setCols(2)">2단</button>
+    <button class="tb-btn"    id="c3" onclick="setCols(3)">3단</button>
+  </div>
   <div class="sep"></div>
-  <span class="lbl">T↕</span>
-  <select id="fontSize" onchange="applyStyle();saveTypoSettings()">
-    <option value="16">16px</option>
-    <option value="17">17px</option><option value="18">18px</option>
-    <option value="19">19px</option><option value="20">20px</option>
-    <option value="21">21px</option><option value="22" selected>22px</option>
-    <option value="24">24px</option><option value="26">26px</option>
-    <option value="28">28px</option>
-  </select>
+  <button class="tb-ul" onclick="openSettings()">설정</button>
   <div class="sep"></div>
-  <span class="lbl">¶</span>
-  <select id="lineHeight" onchange="applyStyle();saveTypoSettings()">
-    <option value="1.50">1.50</option>
-    <option value="1.55">1.55</option>
-    <option value="1.60">1.60</option>
-    <option value="1.65">1.65</option>
-    <option value="1.70">1.70</option>
-    <option value="1.75">1.75</option>
-    <option value="1.80">1.80</option>
-    <option value="1.85" selected>1.85</option>
-    <option value="1.90">1.90</option>
-    <option value="1.95">1.95</option>
-    <option value="2.00">2.00</option>
-  </select>
+  <button class="tb-ul" id="zen-btn" onclick="toggleZenMode()">✦ 집중 모드</button>
+<div class="sep"></div> 
+ <button class="tb-ul" id="dark-btn" onclick="toggleDark()">☽ 다크 모드</button>
   <div class="sep"></div>
-  <button class="tb-btn"    id="c1" onclick="setCols(1)">1단</button>
-  <button class="tb-btn on" id="c2" onclick="setCols(2)">2단</button>
-  <button class="tb-btn"    id="c3" onclick="setCols(3)">3단</button>
-  <div class="sep"></div>
-  <button class="tb-btn" onclick="openSettings()">설정</button>
-  <div class="sep"></div>
-  <button class="tb-btn" onclick="copyAllText()">⎘ 복사</button>
-  <button class="tb-btn" onclick="openFileManager()">▤ 파일 관리</button>
+  <button class="tb-ul" onclick="copyAllText()">⎘ 복사</button>
+<div class="sep"></div>
+  <button class="tb-ul" onclick="openFileManager()">▤ 파일 관리</button>
   <div class="spacer"></div>
 </div>
 
 <div id="float-btns">
   <button class="float-btn" id="fs-btn"    onclick="toggleFullscreen()">⛶  전체 화면</button>
-  <button class="float-btn" id="zen-btn"   onclick="toggleZenMode()">✦ 집중 모드</button>
-  <button class="float-btn" id="dark-btn"  onclick="toggleDark()">☽ 다크 모드</button>
   <button class="float-btn"                onclick="openGrape()">⁂ 포도밭</button>
   <button class="float-btn" id="podo-float" onclick="openPodo()">◷ 타이머</button>
   <button class="float-btn" id="menu-btn"  onclick="toggleMenu()">▲ 메뉴</button>
@@ -334,7 +347,7 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
 <!-- 설정 패널 -->
 <div id="settings-overlay" onclick="closeSettingsOutside(event)" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:500;align-items:center;justify-content:center">
   <div style="background:var(--grape-panel-bg);border:1px solid var(--grape-panel-bd);border-radius:14px;padding:24px;width:min(380px,94vw);box-shadow:0 20px 60px rgba(0,0,0,0.3)">
-    <h2 style="font-family:'Barlow',sans-serif;font-weight:800;font-style:italic;font-size:15px;letter-spacing:-.06em;color:var(--accent);margin-bottom:14px">설정</h2>
+    <h2 style="font-family:'Barlow',sans-serif;font-weight:800;font-size:15px;letter-spacing:-.06em;color:var(--accent);margin-bottom:14px">설정</h2>
 
     <!-- 탭 버튼 -->
     <div style="display:flex;gap:4px;margin-bottom:16px">
@@ -404,7 +417,7 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
 
 <div id="backup-overlay" onclick="closeBackupOutside(event)" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:500;align-items:center;justify-content:center">
   <div id="backup-panel" style="background:var(--grape-panel-bg);border:1px solid var(--grape-panel-bd);border-radius:14px;padding:24px;width:min(420px,94vw);max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
-    <h2 style="font-family:'Barlow',sans-serif;font-weight:800;font-style:italic;font-size:15px;letter-spacing:-.06em;color:var(--accent);margin-bottom:16px">💾 파일 관리</h2>
+    <h2 style="font-family:'Barlow',sans-serif;font-weight:800;font-size:15px;letter-spacing:-.06em;color:var(--accent);margin-bottom:16px">💾 파일 관리</h2>
     <div style="display:flex;gap:8px;margin-bottom:20px">
       <button onclick="saveFile()" style="flex:1;padding:10px;background:var(--accent);border:none;color:#1a1a1a;border-radius:8px;font-size:13px;font-family:inherit;font-weight:bold;cursor:pointer">파일로 저장 ↓</button>
       <button onclick="triggerLoad()" style="flex:1;padding:10px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer">불러오기 ↑</button>
@@ -490,7 +503,7 @@ function applySystemDark(){
   darkMode=window.matchMedia('(prefers-color-scheme: dark)').matches;
   document.body.classList.toggle('dark',darkMode);
   const btn=document.getElementById('dark-btn');
-  btn.textContent=darkMode?'☀ 라이트 모드':'☽ 다크 모드';
+  btn.textContent=darkMode?'☽ 다크 모드':'☽ 다크 모드';
   btn.classList.toggle('on',darkMode);
   drawRuled();
 }
@@ -509,7 +522,7 @@ function copyAllText(){
   const done=()=>{
     const lbl=document.getElementById('autosave-label');
     const orig=lbl.textContent;
-    lbl.textContent='📋 복사 완료!';lbl.classList.add('saved');
+    lbl.textContent='복사 완료';lbl.classList.add('saved');
     setTimeout(()=>{lbl.classList.remove('saved');lbl.textContent=orig;},2000);
   };
   if(navigator.clipboard&&navigator.clipboard.writeText)
@@ -719,6 +732,11 @@ wrap.addEventListener('touchstart',e=>{
 wrap.addEventListener('touchend',()=>clearTimeout(longPressTimer),{passive:true});
 wrap.addEventListener('touchmove',()=>clearTimeout(longPressTimer),{passive:true});
 
+function toggleViewSettings(){
+  const g=document.getElementById('view-group');
+  const visible=g.style.display==='flex';
+  g.style.display=visible?'none':'flex';
+}
 function toggleMenu(){
   menuVisible=!menuVisible;
   toolbar.classList.toggle('hidden',!menuVisible);
@@ -740,8 +758,7 @@ function toggleFullscreen(){
     isFullscreen=!!(document.fullscreenElement||document.webkitFullscreenElement);
     const btn=document.getElementById('fs-btn');
     btn.textContent=isFullscreen?'✕ 전체 화면':'⛶ 전체 화면';
-    btn.classList.toggle('on',isFullscreen);
-    updateOverlayVisibility();
+        updateOverlayVisibility();
     setTimeout(()=>applyStyle(),100);
   })
 );
@@ -749,7 +766,7 @@ function toggleDark(){
   darkMode=!darkMode;
   document.body.classList.toggle('dark',darkMode);
   const btn=document.getElementById('dark-btn');
-  btn.textContent=darkMode?'☀ 라이트 모드':'☽ 다크 모드';
+  btn.textContent=darkMode?'☽ 다크 모드':'☽ 다크 모드';
   btn.classList.toggle('on',darkMode);
   drawRuled();
 }
@@ -991,7 +1008,7 @@ function toggleZenMode(){
   const btn=document.getElementById('zen-btn');
   document.body.classList.toggle('zen-mode',isZenMode);
   btn.classList.toggle('on',isZenMode);
-  btn.textContent=isZenMode?'✕ 집중 모드':'✦ 집중 모드';
+  btn.textContent=isZenMode?'✦ 집중 모드':'✦ 집중 모드';
   if(isZenMode)updateZenFocus();
   else document.querySelectorAll('.current-line').forEach(el=>el.classList.remove('current-line'));
   editor.focus();
