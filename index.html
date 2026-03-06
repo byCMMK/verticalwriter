@@ -418,11 +418,33 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
 <div id="backup-overlay" onclick="closeBackupOutside(event)" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:500;align-items:center;justify-content:center">
   <div id="backup-panel" style="background:var(--grape-panel-bg);border:1px solid var(--grape-panel-bd);border-radius:14px;padding:24px;width:min(420px,94vw);max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
     <h2 style="font-family:'Barlow',sans-serif;font-weight:800;font-size:15px;letter-spacing:-.06em;color:var(--accent);margin-bottom:16px">💾 파일 관리</h2>
-    <div style="display:flex;gap:8px;margin-bottom:20px">
+    <div style="display:flex;gap:8px;margin-bottom:16px">
       <button onclick="saveFile()" style="flex:1;padding:10px;background:var(--accent);border:none;color:#1a1a1a;border-radius:8px;font-size:13px;font-family:inherit;font-weight:bold;cursor:pointer">파일로 저장 ↓</button>
       <button onclick="triggerLoad()" style="flex:1;padding:10px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer">불러오기 ↑</button>
       <button onclick="newDoc()" style="flex:1;padding:10px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer">새 문서</button>
       <input id="load-file-input" type="file" accept=".txt" style="display:none" onchange="loadFile(event)">
+    </div>
+    <!-- 세이브 슬롯 -->
+    <div style="font-size:11px;color:var(--grape-sub);margin-bottom:8px">세이브 슬롯</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+      <div id="slot-1-row" style="display:flex;align-items:center;gap:6px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:7px;padding:8px 10px">
+        <span style="font-size:11px;color:var(--accent);flex-shrink:0;width:36px">슬롯 1</span>
+        <span id="slot-1-info" style="font-size:11px;color:var(--grape-sub);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">비어 있음</span>
+        <button onclick="saveSlot(1)" style="background:var(--accent);border:none;color:#1a1a1a;border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">저장</button>
+        <button onclick="loadSlot(1)" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">불러오기</button>
+      </div>
+      <div id="slot-2-row" style="display:flex;align-items:center;gap:6px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:7px;padding:8px 10px">
+        <span style="font-size:11px;color:var(--accent);flex-shrink:0;width:36px">슬롯 2</span>
+        <span id="slot-2-info" style="font-size:11px;color:var(--grape-sub);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">비어 있음</span>
+        <button onclick="saveSlot(2)" style="background:var(--accent);border:none;color:#1a1a1a;border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">저장</button>
+        <button onclick="loadSlot(2)" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">불러오기</button>
+      </div>
+      <div id="slot-3-row" style="display:flex;align-items:center;gap:6px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:7px;padding:8px 10px">
+        <span style="font-size:11px;color:var(--accent);flex-shrink:0;width:36px">슬롯 3</span>
+        <span id="slot-3-info" style="font-size:11px;color:var(--grape-sub);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">비어 있음</span>
+        <button onclick="saveSlot(3)" style="background:var(--accent);border:none;color:#1a1a1a;border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">저장</button>
+        <button onclick="loadSlot(3)" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">불러오기</button>
+      </div>
     </div>
     <div style="font-size:11px;color:var(--grape-sub);margin-bottom:10px">자동저장 백업 · 최근 10개</div>
     <div id="backup-list" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:14px;min-height:60px"></div>
@@ -797,8 +819,38 @@ function saveBackup(html){
     localStorage.setItem(BACKUP_KEY,JSON.stringify(backups));
   }catch(e){}
 }
+/* ── 세이브 슬롯 ── */
+function saveSlot(n){
+  const html=editor.innerHTML;
+  const preview=(editor.innerText||'').trim().slice(0,40);
+  const now=new Date();
+  const label=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+' '+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  try{
+    localStorage.setItem('wt-slot-'+n,JSON.stringify({html,preview,label}));
+    renderSlots();
+  }catch(e){alert('저장 공간이 부족해 슬롯 '+n+'에 저장하지 못했습니다.\n자동저장 백업이나 다른 슬롯을 정리해보세요.');}
+}
+function loadSlot(n){
+  let data;
+  try{data=JSON.parse(localStorage.getItem('wt-slot-'+n)||'null');}catch(e){}
+  if(!data){alert('슬롯 '+n+'에 저장된 내용이 없습니다.');return;}
+  if(!confirm('현재 내용이 슬롯 '+n+'의 내용으로 교체됩니다. 계속할까요?'))return;
+  editor.innerHTML=data.html;
+  skipCount=true;
+  lastCharCount=(editor.innerText||'').replace(/\s/g,'').length;
+  closeBackup();onEdit();editor.focus();
+}
+function renderSlots(){
+  [1,2,3].forEach(n=>{
+    let data;
+    try{data=JSON.parse(localStorage.getItem('wt-slot-'+n)||'null');}catch(e){}
+    const el=document.getElementById('slot-'+n+'-info');
+    if(!el)return;
+    el.textContent=data?data.label+' · '+data.preview:'비어 있음';
+  });
+}
 let _selectedBackupHtml='';
-function openFileManager(){document.getElementById('backup-overlay').style.display='flex';renderBackupList();}
+function openFileManager(){document.getElementById('backup-overlay').style.display='flex';renderBackupList();renderSlots();}
 function openBackup(){openFileManager();}
 function triggerLoad(){document.getElementById('load-file-input').value='';document.getElementById('load-file-input').click();}
 function loadFile(e){
@@ -870,7 +922,12 @@ function forceSave(){
     const hm=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
     lbl.textContent=hm+' 저장';lbl.classList.add('saved');
     clearTimeout(lbl._t);lbl._t=setTimeout(()=>lbl.classList.remove('saved'),3000);
-  }catch(e){}
+  }catch(e){
+    const lbl=document.getElementById('autosave-label');
+    lbl.textContent='⚠ 저장 실패';lbl.classList.add('saved');
+    clearTimeout(lbl._t);lbl._t=setTimeout(()=>lbl.classList.remove('saved'),4000);
+    alert('저장 공간이 부족해 저장하지 못했습니다.');
+  }
 }
 function autoSave(){
   clearTimeout(saveTimer);
@@ -884,7 +941,12 @@ function autoSave(){
       const hm=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
       lbl.textContent=hm+' 저장';lbl.classList.add('saved');
       clearTimeout(lbl._t);lbl._t=setTimeout(()=>lbl.classList.remove('saved'),3000);
-    }catch(e){}
+    }catch(e){
+      const lbl=document.getElementById('autosave-label');
+      lbl.textContent='⚠ 저장 실패';lbl.classList.add('saved');
+      clearTimeout(lbl._t);lbl._t=setTimeout(()=>lbl.classList.remove('saved'),4000);
+      alert('저장 공간이 부족해 자동저장에 실패했습니다.');
+    }
   },60000);
 }
 try{const saved=localStorage.getItem(DRAFT_KEY);if(saved)editor.innerHTML=saved;}catch(e){}
