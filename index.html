@@ -707,16 +707,7 @@ const observer=new MutationObserver(()=>{
     node.textContent=text;
     const r=document.createRange();r.setStart(node,offset);r.collapse(true);
     sel.removeAllRanges();sel.addRange(r);
-    // 따옴표 변환 후 생긴 연속 빈 div 제거
-    setTimeout(()=>{
-      const divs=[...editor.children];
-      for(let i=divs.length-1;i>0;i--){
-        if(divs[i].innerHTML==='<br>'&&divs[i-1].innerHTML==='<br>'){
-          divs[i].remove();
-        }
-      }
-      mutating=false;
-    },0);
+    setTimeout(()=>{mutating=false;},0);
   }
 });
 observer.observe(editor,{characterData:true,subtree:true,childList:true});
