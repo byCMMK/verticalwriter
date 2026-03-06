@@ -49,7 +49,6 @@ body.zen-mode .current-line {
 .podo-btns { display:flex; gap:8px; justify-content:center; margin-bottom:20px; }
 .podo-btn { background:var(--grape-input-bg); border:1px solid var(--grape-input-bd); color:var(--grape-text); border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer; }
 .podo-btn:hover { border-color:var(--accent); }
-#podo-control { width:100%; padding:10px; border-radius:7px; border:none; background:var(--accent); color:#1a1a1a; font-weight:bold; cursor:pointer; margin-bottom:10px; }
 #podo-close { background:none; border:none; color:var(--grape-sub); font-size:11px; cursor:pointer; text-decoration:underline; }
 .timer-running #podo-display { color: var(--accent); animation: pulse 2s infinite; }
 @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
@@ -334,22 +333,68 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
 
 <!-- 설정 패널 -->
 <div id="settings-overlay" onclick="closeSettingsOutside(event)" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:500;align-items:center;justify-content:center">
-  <div style="background:var(--grape-panel-bg);border:1px solid var(--grape-panel-bd);border-radius:14px;padding:24px;width:min(320px,92vw);box-shadow:0 20px 60px rgba(0,0,0,0.3)">
-    <h2 style="font-family:'Barlow',sans-serif;font-weight:800;font-style:italic;font-size:15px;letter-spacing:-.06em;color:var(--accent);margin-bottom:20px">설정</h2>
+  <div style="background:var(--grape-panel-bg);border:1px solid var(--grape-panel-bd);border-radius:14px;padding:24px;width:min(380px,94vw);box-shadow:0 20px 60px rgba(0,0,0,0.3)">
+    <h2 style="font-family:'Barlow',sans-serif;font-weight:800;font-style:italic;font-size:15px;letter-spacing:-.06em;color:var(--accent);margin-bottom:14px">설정</h2>
 
-    <!-- 줄노트 -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <span style="font-size:12px;color:var(--grape-text)">줄노트</span>
-      <button id="settings-ruled-btn" onclick="settingsToggleRuled()" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:4px 14px;font-size:12px;font-family:inherit;cursor:pointer;transition:background .15s,border-color .15s">OFF</button>
+    <!-- 탭 버튼 -->
+    <div style="display:flex;gap:4px;margin-bottom:16px">
+      <button id="stab-general" onclick="switchSettingsTab('general')" style="background:var(--accent);color:#1a1a1a;border:1px solid var(--accent);border-radius:5px;padding:4px 10px;font-size:11px;font-family:inherit;cursor:pointer">일반</button>
+      <button id="stab-replace" onclick="switchSettingsTab('replace')" style="background:var(--grape-input-bg);color:var(--grape-text);border:1px solid var(--grape-input-bd);border-radius:5px;padding:4px 10px;font-size:11px;font-family:inherit;cursor:pointer">일괄 치환</button>
+      <button id="stab-find" onclick="switchSettingsTab('find')" style="background:var(--grape-input-bg);color:var(--grape-text);border:1px solid var(--grape-input-bd);border-radius:5px;padding:4px 10px;font-size:11px;font-family:inherit;cursor:pointer">찾아 바꾸기</button>
     </div>
 
-    <!-- 줄바꿈 -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
-      <span style="font-size:12px;color:var(--grape-text)">줄바꿈</span>
-      <div style="display:flex;gap:6px">
-        <button id="wb-keep" onclick="setWordBreak('keep-all')" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:4px 10px;font-size:11px;font-family:inherit;cursor:pointer;transition:background .15s,border-color .15s">단어</button>
-        <button id="wb-break" onclick="setWordBreak('break-all')" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:4px 10px;font-size:11px;font-family:inherit;cursor:pointer;transition:background .15s,border-color .15s">글자</button>
+    <!-- 일반 탭 -->
+    <div id="settings-tab-general">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <span style="font-size:12px;color:var(--grape-text)">줄노트</span>
+        <button id="settings-ruled-btn" onclick="settingsToggleRuled()" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:4px 14px;font-size:12px;font-family:inherit;cursor:pointer;transition:background .15s,border-color .15s">OFF</button>
       </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+        <span style="font-size:12px;color:var(--grape-text)">줄바꿈</span>
+        <div style="display:flex;gap:6px">
+          <button id="wb-keep" onclick="setWordBreak('keep-all')" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:4px 10px;font-size:11px;font-family:inherit;cursor:pointer;transition:background .15s,border-color .15s">단어</button>
+          <button id="wb-break" onclick="setWordBreak('break-all')" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:4px 10px;font-size:11px;font-family:inherit;cursor:pointer;transition:background .15s,border-color .15s">글자</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 일괄 치환 탭 -->
+    <div id="settings-tab-replace" style="display:none">
+      <div style="font-size:11px;color:var(--grape-sub);margin-bottom:10px">글 전체에 일괄 적용할 치환 규칙을 등록하세요</div>
+      <div style="display:flex;gap:6px;align-items:center;margin-bottom:10px">
+        <input id="rep-from" type="text" placeholder="찾을 말" autocomplete="off"
+          style="flex:1;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none;min-width:0"
+          onkeydown="if(event.key==='Enter')addRepRule()">
+        <span style="color:var(--grape-sub);font-size:13px;flex-shrink:0">→</span>
+        <input id="rep-to" type="text" placeholder="바꿀 말" autocomplete="off"
+          style="flex:1;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none;min-width:0"
+          onkeydown="if(event.key==='Enter')addRepRule()">
+        <button onclick="addRepRule()" style="background:var(--accent);border:none;color:#1a1a1a;border-radius:5px;padding:5px 10px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:bold;flex-shrink:0">추가</button>
+      </div>
+      <div id="rep-list" style="max-height:160px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;margin-bottom:12px;min-height:32px"></div>
+      <button onclick="applyRepRules()" style="width:100%;padding:8px;background:var(--accent);border:none;color:#1a1a1a;border-radius:7px;font-size:12px;font-family:inherit;font-weight:bold;cursor:pointer;margin-bottom:6px">전체 글에 일괄 적용</button>
+      <button onclick="applyAllSmartQuotes()" style="width:100%;padding:8px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:7px;font-size:12px;font-family:inherit;cursor:pointer;margin-bottom:8px">따옴표 변환</button>
+    </div>
+
+    <!-- 찾아 바꾸기 탭 -->
+    <div id="settings-tab-find" style="display:none">
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:11px;color:var(--grape-sub);width:32px;flex-shrink:0;text-align:right">찾기</span>
+          <input id="srep-find" type="text" placeholder="찾을 말" autocomplete="off"
+            style="flex:1;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none">
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:11px;color:var(--grape-sub);width:32px;flex-shrink:0;text-align:right">→</span>
+          <input id="srep-to" type="text" placeholder="바꿀 말" autocomplete="off"
+            style="flex:1;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none">
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:8px">
+        <button onclick="srepSearch()" style="flex:1;padding:7px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer">검색</button>
+        <button onclick="srepAll()" style="flex:1;padding:7px;background:var(--accent);border:none;color:#1a1a1a;border-radius:6px;font-size:12px;font-family:inherit;font-weight:bold;cursor:pointer">모두 바꾸기</button>
+      </div>
+      <div id="srep-msg" style="font-size:11px;color:var(--grape-sub);min-height:16px;margin-bottom:8px"></div>
     </div>
 
     <button onclick="closeSettings()" style="width:100%;padding:7px;background:var(--grape-close-bg);border:1px solid var(--grape-close-bd);color:var(--grape-close-text);border-radius:7px;font-size:12px;font-family:inherit;cursor:pointer">닫기</button>
@@ -381,7 +426,13 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
 let podoSeconds = 0, podoInterval = null, isPodoRunning = false;
 function openPodo(){document.getElementById('podo-overlay').classList.add('open');}
 function closePodo(){document.getElementById('podo-overlay').classList.remove('open');}
-function setPodo(min){stopPodo();podoSeconds=min*60;updatePodoDisplay();}
+function startPodoMin(min){
+  stopPodo();
+  podoSeconds=min*60;
+  updatePodoDisplay();
+  closePodo();
+  startPodo();
+}
 function updatePodoDisplay(){
   const m=Math.floor(podoSeconds/60),s=podoSeconds%60;
   const t=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
@@ -389,18 +440,38 @@ function updatePodoDisplay(){
   document.getElementById('podo-float').textContent=isPodoRunning?`◷ ${t}`:'◷ 타이머';
 }
 function togglePodo(){isPodoRunning?stopPodo():startPodo();}
+let isPodoPaused=false;
+function togglePause(){
+  if(isPodoPaused){
+    isPodoPaused=false;
+    document.getElementById('podo-pause').textContent='일시 정지';
+    document.getElementById('podo-panel').classList.add('timer-running');
+    podoInterval=setInterval(()=>{
+      podoSeconds--;updatePodoDisplay();
+      if(podoSeconds<=0){clearInterval(podoInterval);alert('집중 시간이 끝났습니다!');stopPodo();}
+    },1000);
+  } else {
+    isPodoPaused=true;
+    clearInterval(podoInterval);
+    document.getElementById('podo-pause').textContent='계속';
+    document.getElementById('podo-panel').classList.remove('timer-running');
+  }
+}
 function startPodo(){
-  isPodoRunning=true;
-  document.getElementById('podo-control').textContent='STOP';
+  isPodoRunning=true;isPodoPaused=false;
+  const rb=document.getElementById('podo-running-btns');
+  rb.style.display='flex';
+  document.getElementById('podo-pause').textContent='일시 정지';
   document.getElementById('podo-panel').classList.add('timer-running');
   podoInterval=setInterval(()=>{
     podoSeconds--;updatePodoDisplay();
-    if(podoSeconds<=0){clearInterval(podoInterval);alert('집중 시간이 끝났습니다!');stopPodo();setPodo(25);}
+    if(podoSeconds<=0){clearInterval(podoInterval);alert('집중 시간이 끝났습니다!');stopPodo();}
   },1000);
 }
 function stopPodo(){
-  isPodoRunning=false;clearInterval(podoInterval);
-  document.getElementById('podo-control').textContent='START';
+  isPodoRunning=false;isPodoPaused=false;clearInterval(podoInterval);
+  podoSeconds=0;
+  document.getElementById('podo-running-btns').style.display='none';
   document.getElementById('podo-panel').classList.remove('timer-running');
   updatePodoDisplay();
 }
@@ -558,11 +629,8 @@ function handleKey(e){
     const k=e.key.toLowerCase();
     if(k==='b'){e.preventDefault();document.execCommand('bold',false,null);return;}
     if(k==='i'){e.preventDefault();document.execCommand('italic',false,null);return;}
+    if(k==='s'){e.preventDefault();forceSave();return;}
   }
-  if(e.key==='Tab'&&!e.altKey&&!e.ctrlKey&&!e.metaKey){
-    e.preventDefault();document.execCommand('insertText',false,'    ');return;
-  }
-
 }
 
 function getCleanText(){
@@ -577,6 +645,12 @@ const observer=new MutationObserver(()=>{
   const node=range.startContainer;
   if(node.nodeType!==Node.TEXT_NODE)return;
   let text=node.textContent,offset=range.startOffset,changed=false;
+  if(!changed&&text[offset-1]==='<'){
+    text=text.slice(0,offset-1)+'「'+text.slice(offset);changed=true;
+  }
+  if(!changed&&text[offset-1]==='>'){
+    text=text.slice(0,offset-1)+'」'+text.slice(offset);changed=true;
+  }
   if(!changed&&text.slice(0,offset).endsWith(',,')){
     const p=offset-2;text=text.slice(0,p)+'―'+text.slice(offset);offset=p+1;changed=true;
   }
@@ -614,6 +688,7 @@ observer.observe(editor,{characterData:true,subtree:true,childList:true});
 
 editor.addEventListener('paste',e=>{
   e.preventDefault();
+  skipCount=true;
   const text=(e.clipboardData||window.clipboardData).getData('text/plain');
   document.execCommand('insertText',false,text);
   setTimeout(drawRuled,200);
@@ -717,7 +792,8 @@ function loadFile(e){
     const lines=ev.target.result.split('\n');
     editor.innerHTML=lines.map(l=>`<div>${l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')||'<br>'}</div>`).join('');
     closeBackup();
-    baseChars=(editor.innerText||'').replace(/\s/g,'').length;
+    skipCount=true;
+    lastCharCount=(editor.innerText||'').replace(/\s/g,'').length;
     onEdit();editor.focus();
   };
   reader.readAsText(file,'UTF-8');
@@ -728,7 +804,8 @@ function newDoc(){
   editor.innerHTML='';
   try{localStorage.removeItem(DRAFT_KEY);}catch(e){}
   closeBackup();
-  baseChars=0;
+  skipCount=true;
+  lastCharCount=0;
   onEdit();
   editor.focus();
 }
@@ -765,6 +842,19 @@ function restoreBackup(){
   try{localStorage.setItem(DRAFT_KEY,_selectedBackupHtml);}catch(e){}
   closeBackup();onEdit();
 }
+function forceSave(){
+  clearTimeout(saveTimer);
+  try{
+    const html=editor.innerHTML;
+    localStorage.setItem(DRAFT_KEY,html);
+    saveBackup(html);saveCursorPos();
+    const lbl=document.getElementById('autosave-label');
+    const now=new Date();
+    const hm=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+    lbl.textContent=hm+' 저장';lbl.classList.add('saved');
+    clearTimeout(lbl._t);lbl._t=setTimeout(()=>lbl.classList.remove('saved'),3000);
+  }catch(e){}
+}
 function autoSave(){
   clearTimeout(saveTimer);
   saveTimer=setTimeout(()=>{
@@ -778,17 +868,18 @@ function autoSave(){
       lbl.textContent=hm+' 저장';lbl.classList.add('saved');
       clearTimeout(lbl._t);lbl._t=setTimeout(()=>lbl.classList.remove('saved'),3000);
     }catch(e){}
-  },2000);
+  },60000);
 }
 try{const saved=localStorage.getItem(DRAFT_KEY);if(saved)editor.innerHTML=saved;}catch(e){}
 setTimeout(restoreCursorPos,300);
 
-const SESSION_KEY='wt-session-'+new Date().toISOString().slice(0,10);
-let baseChars=0;
+function todayStr(){return new Date().toISOString().slice(0,10)}
+
+const TYPED_KEY='wt-typed-'+todayStr();
+let typedChars=0,lastCharCount=0,skipCount=false;
 try{
-  const stored=localStorage.getItem(SESSION_KEY);
-  if(stored!==null){baseChars=parseInt(stored);}
-  else{baseChars=(editor.innerText||'').replace(/\s/g,'').length;localStorage.setItem(SESSION_KEY,baseChars);}
+  typedChars=parseInt(localStorage.getItem(TYPED_KEY)||'0');
+  lastCharCount=(editor.innerText||'').replace(/\s/g,'').length;
 }catch(e){}
 
 function onEdit(){
@@ -799,16 +890,24 @@ function onEdit(){
   sv('s-chars','글자 '+chars.toLocaleString());
   sv('s-words','단어 '+words.toLocaleString());
   sv('s-lines','줄 '+lines);
+  if(!skipCount){
+    const diff=chars-lastCharCount;
+    if(diff>0){
+      typedChars+=diff;
+      try{localStorage.setItem(TYPED_KEY,typedChars);}catch(e){}
+    }
+  }
+  lastCharCount=chars;
+  skipCount=false;
   if(currentCols>1)setTimeout(updatePageInd,50);
-  autoSave();updateGoalProgress(chars);
+  autoSave();updateGoalProgress();
 }
-function updateGoalProgress(chars){
+function updateGoalProgress(){
   const goal=getGoal();if(!goal)return;
-  const todayChars=Math.max(0,chars-baseChars);
-  const pct=Math.min(100,Math.round(todayChars/goal*100));
+  const pct=Math.min(100,Math.round(typedChars/goal*100));
   document.getElementById('goal-bar').style.width=pct+'%';
   sv('goal-pct',pct+'%');
-  if(todayChars>=goal)markTodayGrape();
+  if(typedChars>=goal)markTodayGrape();
 }
 function saveFile(){
   const blob=new Blob([getCleanText()],{type:'text/plain;charset=utf-8'});
@@ -820,7 +919,6 @@ function saveFile(){
 
 const GRAPE_KEY='wt-grapes',GOAL_KEY='wt-goal';
 let grapeYear=new Date().getFullYear(),grapeMonth=new Date().getMonth();
-function todayStr(){return new Date().toISOString().slice(0,10)}
 function getGrapes(){try{return JSON.parse(localStorage.getItem(GRAPE_KEY)||'{}')}catch(e){return{}}}
 function saveGrapes(g){try{localStorage.setItem(GRAPE_KEY,JSON.stringify(g))}catch(e){}}
 function getGoal(){try{return parseInt(localStorage.getItem(GOAL_KEY)||'3000')}catch(e){return 3000}}
@@ -850,13 +948,10 @@ function openGrape(){
   grapeYear=new Date().getFullYear();grapeMonth=new Date().getMonth();
   document.getElementById('grape-goal-input').value=getGoal();
   const totalNow=(editor.innerText||'').replace(/\s/g,'').length;
-  const todayTyped=Math.max(0,totalNow-baseChars);
-  const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
-  const yKey='wt-session-'+yesterday.toISOString().slice(0,10);
-  const yBase=parseInt(localStorage.getItem(yKey)||'0');
-  const todayBase=parseInt(localStorage.getItem(SESSION_KEY)||'0');
-  sv('stat-today',todayTyped.toLocaleString());
-  sv('stat-yesterday',Math.max(0,todayBase-yBase).toLocaleString());
+  const yesterdayKey='wt-typed-'+new Date(new Date().setDate(new Date().getDate()-1)).toISOString().slice(0,10);
+  const yTyped=parseInt(localStorage.getItem(yesterdayKey)||'0');
+  sv('stat-today',typedChars.toLocaleString());
+  sv('stat-yesterday',yTyped.toLocaleString());
   sv('stat-total',totalNow.toLocaleString());
   renderGrapeGrid();
   document.getElementById('grape-overlay').classList.add('open');
@@ -911,6 +1006,177 @@ function updateZenFocus(){
     if(node===editor)return;
     node.classList.add('current-line');
   }
+}
+
+/* ── 설정 탭 ── */
+function switchSettingsTab(tab){
+  ['general','replace','find'].forEach(t=>{
+    document.getElementById('settings-tab-'+t).style.display=t===tab?'block':'none';
+    const btn=document.getElementById('stab-'+t);
+    const on=t===tab;
+    btn.style.background=on?'var(--accent)':'var(--grape-input-bg)';
+    btn.style.color=on?'#1a1a1a':'var(--grape-text)';
+    btn.style.borderColor=on?'var(--accent)':'var(--grape-input-bd)';
+  });
+  if(tab==='replace')renderRepList();
+  if(tab==='find')document.getElementById('srep-msg').textContent='';
+}
+
+/* ── 일괄 치환 ── */
+const REP_KEY='wt-rep-rules';
+let repRules=[];
+function loadRepRules(){try{repRules=JSON.parse(localStorage.getItem(REP_KEY)||'[]');}catch(e){repRules=[];}}
+function saveRepRules(){try{localStorage.setItem(REP_KEY,JSON.stringify(repRules));}catch(e){}}
+function addRepRule(){
+  const from=document.getElementById('rep-from').value;
+  const to=document.getElementById('rep-to').value;
+  if(!from){alert('찾을 말을 입력해주세요.');return;}
+  if(repRules.some(r=>r.from===from)){alert('이미 같은 규칙이 있습니다.');return;}
+  repRules.push({from,to});
+  saveRepRules();
+  document.getElementById('rep-from').value='';
+  document.getElementById('rep-to').value='';
+  renderRepList();
+}
+function deleteRepRule(i){repRules.splice(i,1);saveRepRules();renderRepList();}
+function renderRepList(){
+  const list=document.getElementById('rep-list');
+  if(!list)return;
+  if(!repRules.length){
+    list.innerHTML='<div style="font-size:11px;color:var(--grape-sub);text-align:center;padding:8px">등록된 규칙이 없습니다</div>';
+    return;
+  }
+  list.innerHTML=repRules.map((r,i)=>`
+    <div style="display:flex;align-items:center;gap:6px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:5px;padding:4px 8px">
+      <span style="font-size:12px;color:var(--grape-text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml(r.from)}</span>
+      <span style="color:var(--grape-sub);font-size:11px;flex-shrink:0">→</span>
+      <span style="font-size:12px;color:var(--accent);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml(r.to)}</span>
+      <button onclick="deleteRepRule(${i})" style="background:none;border:none;color:var(--grape-sub);font-size:15px;cursor:pointer;flex-shrink:0;padding:0 2px;line-height:1">×</button>
+    </div>`).join('');
+}
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function applySmartQuotes(){
+  const walker=document.createTreeWalker(editor,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(walker.nextNode())nodes.push(walker.currentNode);
+  let total=0;
+  nodes.forEach(n=>{total+=(n.textContent.match(/"/g)||[]).length;});
+  if(total===0){alert('변환할 " 가 없습니다.');return;}
+  if(total%2!==0){alert('" 의 개수가 홀수입니다. 확인 후 다시 시도해주세요.');return;}
+  let count=0;
+  nodes.forEach(node=>{
+    if(!node.textContent.includes('"'))return;
+    let t=node.textContent,result='';
+    for(let i=0;i<t.length;i++){
+      if(t[i]==='"'){result+=count%2===0?'\u201C':'\u201D';count++;}
+      else result+=t[i];
+    }
+    node.textContent=result;
+  });
+  onEdit();
+  alert(`" ${total}개를 " " 로 변환했습니다.`);
+}
+
+function applySmartSingleQuotes(){
+  const walker=document.createTreeWalker(editor,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(walker.nextNode())nodes.push(walker.currentNode);
+  let total=0;
+  nodes.forEach(n=>{total+=(n.textContent.match(/'/g)||[]).length;});
+  if(total===0){alert("변환할 ' 가 없습니다.");return;}
+  if(total%2!==0){alert("' 의 개수가 홀수입니다. 확인 후 다시 시도해주세요.");return;}
+  let count=0;
+  nodes.forEach(node=>{
+    if(!node.textContent.includes("'"))return;
+    let t=node.textContent,result='';
+    for(let i=0;i<t.length;i++){
+      if(t[i]==="'"){result+=count%2===0?'\u2018':'\u2019';count++;}
+      else result+=t[i];
+    }
+    node.textContent=result;
+  });
+  onEdit();
+  alert(`' ${total}개를 ' ' 로 변환했습니다.`);
+}
+
+function applyAllSmartQuotes(){
+  let msgs=[];
+  // 큰따옴표
+  const walker1=document.createTreeWalker(editor,NodeFilter.SHOW_TEXT);
+  const nodes1=[];while(walker1.nextNode())nodes1.push(walker1.currentNode);
+  let dq=0;nodes1.forEach(n=>{dq+=(n.textContent.match(/"/g)||[]).length;});
+  if(dq>0&&dq%2!==0){msgs.push('" 의 개수가 홀수입니다.');}
+  else if(dq>0){
+    let count=0;
+    nodes1.forEach(node=>{
+      if(!node.textContent.includes('"'))return;
+      let t=node.textContent,result='';
+      for(let i=0;i<t.length;i++){
+        if(t[i]==='"'){result+=count%2===0?'\u201C':'\u201D';count++;}
+        else result+=t[i];
+      }
+      node.textContent=result;
+    });
+  }
+  // 작은따옴표
+  const walker2=document.createTreeWalker(editor,NodeFilter.SHOW_TEXT);
+  const nodes2=[];while(walker2.nextNode())nodes2.push(walker2.currentNode);
+  let sq=0;nodes2.forEach(n=>{sq+=(n.textContent.match(/'/g)||[]).length;});
+  if(sq>0&&sq%2!==0){msgs.push("' 의 개수가 홀수입니다.");}
+  else if(sq>0){
+    let count=0;
+    nodes2.forEach(node=>{
+      if(!node.textContent.includes("'"))return;
+      let t=node.textContent,result='';
+      for(let i=0;i<t.length;i++){
+        if(t[i]==="'"){result+=count%2===0?'\u2018':'\u2019';count++;}
+        else result+=t[i];
+      }
+      node.textContent=result;
+    });
+  }
+  if(dq===0&&sq===0){alert('변환할 따옴표가 없습니다.');return;}
+  onEdit();
+  if(msgs.length)alert(msgs.join('\n')+'\n해당 항목은 변환되지 않았습니다.');
+  else alert('따옴표 변환이 완료되었습니다.');
+}
+function applyRepRules(){
+  if(!repRules.length){alert('등록된 치환 규칙이 없습니다.');return;}
+  let html=editor.innerHTML;
+  repRules.forEach(r=>{
+    html=html.split(r.from).join(r.to);
+  });
+  editor.innerHTML=html;
+  onEdit();
+  alert('일괄 치환이 완료되었습니다.');
+}
+loadRepRules();
+
+/* ── 찾아 바꾸기 ── */
+function srepSearch(){
+  const find=document.getElementById('srep-find').value;
+  closeSettings();
+  document.getElementById('find-input').value=find||'';
+  openFind();
+  if(find)findText();
+}
+function srepAll(){
+  const find=document.getElementById('srep-find').value;
+  const to=document.getElementById('srep-to').value;
+  if(!find){srepMsg('찾을 말을 입력해주세요.');return;}
+  const walker=document.createTreeWalker(editor,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(walker.nextNode())nodes.push(walker.currentNode);
+  let count=0;
+  nodes.forEach(node=>{
+    if(node.textContent.includes(find)){
+      const c=(node.textContent.split(find).length-1);
+      node.textContent=node.textContent.split(find).join(to);
+      count+=c;
+    }
+  });
+  onEdit();
+  srepMsg(count?`${count}개 바꿨습니다.`:'찾을 말이 없습니다.');
 }
 
 /* ── 설정 ── */
@@ -972,6 +1238,7 @@ function setWordBreak(wb){
 function openSettings(){
   updateRuledBtn();
   updateWordBreakBtn(editor.style.wordBreak||'keep-all');
+  switchSettingsTab('general');
   document.getElementById('settings-overlay').style.display='flex';
 }
 function closeSettings(){document.getElementById('settings-overlay').style.display='none';}
@@ -1114,14 +1381,18 @@ document.addEventListener('keydown',e=>{
 
 <div id="podo-overlay" onclick="if(event.target===this)closePodo()">
   <div id="podo-panel">
-    <h2>⏳ PODOMODORO</h2>
+    <h2>⏳ 타이머</h2>
     <div id="podo-display">00:00</div>
     <div class="podo-btns">
-      <button class="podo-btn" onclick="setPodo(15)">15분</button>
-      <button class="podo-btn" onclick="setPodo(20)">20분</button>
-      <button class="podo-btn" onclick="setPodo(30)">30분</button>
+      <button class="podo-btn" onclick="startPodoMin(10)">10분</button>
+      <button class="podo-btn" onclick="startPodoMin(20)">20분</button>
+      <button class="podo-btn" onclick="startPodoMin(30)">30분</button>
+      <button class="podo-btn" onclick="startPodoMin(60)">60분</button>
     </div>
-    <button id="podo-control" onclick="togglePodo()">START</button>
+    <div id="podo-running-btns" style="display:none;width:100%;gap:8px;margin-bottom:10px">
+      <button onclick="togglePause()" id="podo-pause" style="flex:1;padding:10px;border-radius:7px;border:1px solid var(--grape-input-bd);background:var(--grape-input-bg);color:var(--grape-text);font-weight:bold;cursor:pointer">일시 정지</button>
+      <button onclick="stopPodo()" style="flex:1;padding:10px;border-radius:7px;border:none;background:var(--accent);color:#1a1a1a;font-weight:bold;cursor:pointer">정지</button>
+    </div>
     <button id="podo-close" onclick="closePodo()">닫기</button>
   </div>
 </div>
