@@ -116,9 +116,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
 #float-btns.hide{opacity:0;pointer-events:none;transform:translateY(-8px)}
 .float-btn{
   line-height:1.5;position:relative;top:4px;
-  background:var(--fl-bg);border:none;color:var(--accent);
+  background:var(--fl-bg);border:none;color:var(--tb-text);
   border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;
-  white-space:nowrap;transition:background .15s;
+  white-space:nowrap;transition:background .15s,color .3s;
 }
 .float-btn:hover{background:rgba(92,104,128,.2)}
 .float-btn.on{background:rgba(92,104,128,.28);}
@@ -408,25 +408,27 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
     </div>
     <!-- 세이브 슬롯 -->
     <div style="font-size:11px;color:var(--grape-sub);margin-bottom:8px">세이브 슬롯</div>
-    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
-      <div id="slot-1-row" style="display:flex;align-items:center;gap:6px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:7px;padding:8px 10px">
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+      <div id="slot-1-row" style="display:flex;align-items:center;gap:6px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:7px;padding:8px 10px;cursor:pointer;transition:border-color .15s" onclick="selectSlot(1)">
         <span style="font-size:11px;color:var(--accent);flex-shrink:0;width:36px">슬롯 1</span>
         <span id="slot-1-info" style="font-size:11px;color:var(--grape-sub);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">비어 있음</span>
-        <button onclick="saveSlot(1)" style="background:var(--accent);border:none;color:#1a1a1a;border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">저장</button>
-        <button onclick="loadSlot(1)" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">불러오기</button>
+        <button onclick="event.stopPropagation();saveSlot(1)" style="background:var(--accent);border:none;color:#1a1a1a;border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">저장</button>
       </div>
-      <div id="slot-2-row" style="display:flex;align-items:center;gap:6px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:7px;padding:8px 10px">
+      <div id="slot-2-row" style="display:flex;align-items:center;gap:6px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:7px;padding:8px 10px;cursor:pointer;transition:border-color .15s" onclick="selectSlot(2)">
         <span style="font-size:11px;color:var(--accent);flex-shrink:0;width:36px">슬롯 2</span>
         <span id="slot-2-info" style="font-size:11px;color:var(--grape-sub);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">비어 있음</span>
-        <button onclick="saveSlot(2)" style="background:var(--accent);border:none;color:#1a1a1a;border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">저장</button>
-        <button onclick="loadSlot(2)" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">불러오기</button>
+        <button onclick="event.stopPropagation();saveSlot(2)" style="background:var(--accent);border:none;color:#1a1a1a;border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">저장</button>
       </div>
-      <div id="slot-3-row" style="display:flex;align-items:center;gap:6px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:7px;padding:8px 10px">
+      <div id="slot-3-row" style="display:flex;align-items:center;gap:6px;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:7px;padding:8px 10px;cursor:pointer;transition:border-color .15s" onclick="selectSlot(3)">
         <span style="font-size:11px;color:var(--accent);flex-shrink:0;width:36px">슬롯 3</span>
         <span id="slot-3-info" style="font-size:11px;color:var(--grape-sub);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">비어 있음</span>
-        <button onclick="saveSlot(3)" style="background:var(--accent);border:none;color:#1a1a1a;border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">저장</button>
-        <button onclick="loadSlot(3)" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">불러오기</button>
+        <button onclick="event.stopPropagation();saveSlot(3)" style="background:var(--accent);border:none;color:#1a1a1a;border-radius:5px;padding:3px 10px;font-size:11px;font-family:inherit;cursor:pointer;flex-shrink:0">저장</button>
       </div>
+    </div>
+    <div id="slot-preview-wrap" style="display:none;margin-bottom:10px">
+      <div style="font-size:10px;color:var(--grape-sub);margin-bottom:5px">미리보기</div>
+      <div id="slot-preview" style="background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);border-radius:6px;padding:10px;font-size:12px;color:var(--grape-text);line-height:1.6;max-height:100px;overflow-y:auto;white-space:pre-wrap;word-break:break-all"></div>
+      <button onclick="loadSelectedSlot()" style="margin-top:8px;width:100%;padding:7px;background:var(--accent);border:none;color:#1a1a1a;border-radius:6px;font-size:12px;font-family:inherit;font-weight:bold;cursor:pointer">이 슬롯으로 불러오기</button>
     </div>
     <div style="font-size:11px;color:var(--grape-sub);margin-bottom:10px">자동저장 백업 · 최근 10개</div>
     <div id="backup-list" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:14px;min-height:60px"></div>
@@ -813,6 +815,7 @@ function loadSlot(n){
   lastCharCount=(editor.innerText||'').replace(/\s/g,'').length;
   closeBackup();onEdit();editor.focus();
 }
+let _selectedSlot=0;
 function renderSlots(){
   [1,2,3].forEach(n=>{
     let data;
@@ -820,10 +823,37 @@ function renderSlots(){
     const el=document.getElementById('slot-'+n+'-info');
     if(!el)return;
     el.textContent=data?data.label+' · '+data.preview:'비어 있음';
+    const row=document.getElementById('slot-'+n+'-row');
+    if(row)row.style.borderColor=_selectedSlot===n?'var(--accent)':'var(--grape-input-bd)';
   });
 }
+function selectSlot(n){
+  let data;
+  try{data=JSON.parse(localStorage.getItem('wt-slot-'+n)||'null');}catch(e){}
+  if(!data){
+    _selectedSlot=0;
+    document.getElementById('slot-preview-wrap').style.display='none';
+    [1,2,3].forEach(i=>{const r=document.getElementById('slot-'+i+'-row');if(r)r.style.borderColor='var(--grape-input-bd)';});
+    return;
+  }
+  _selectedSlot=n;
+  _selectedBackupHtml='';
+  document.getElementById('backup-preview-wrap').style.display='none';
+  document.getElementById('slot-preview').textContent=data.preview||'(내용 없음)';
+  document.getElementById('slot-preview-wrap').style.display='block';
+  [1,2,3].forEach(i=>{const r=document.getElementById('slot-'+i+'-row');if(r)r.style.borderColor=i===n?'var(--accent)':'var(--grape-input-bd)';});
+}
+function loadSelectedSlot(){
+  if(!_selectedSlot)return;
+  loadSlot(_selectedSlot);
+}
 let _selectedBackupHtml='';
-function openFileManager(){document.getElementById('backup-overlay').style.display='flex';renderBackupList();renderSlots();}
+function openFileManager(){
+  _selectedSlot=0;
+  document.getElementById('slot-preview-wrap').style.display='none';
+  document.getElementById('backup-overlay').style.display='flex';
+  renderBackupList();renderSlots();
+}
 function openBackup(){openFileManager();}
 function triggerLoad(){document.getElementById('load-file-input').value='';document.getElementById('load-file-input').click();}
 function loadFile(e){
@@ -871,6 +901,9 @@ function renderBackupList(){
     el.onmouseleave=()=>el.style.borderColor='var(--grape-panel-bd)';
     el.onclick=()=>{
       _selectedBackupHtml=b.html;
+      _selectedSlot=0;
+      document.getElementById('slot-preview-wrap').style.display='none';
+      [1,2,3].forEach(i=>{const r=document.getElementById('slot-'+i+'-row');if(r)r.style.borderColor='var(--grape-input-bd)';});
       document.getElementById('backup-preview').textContent=b.preview||'(내용 없음)';
       document.getElementById('backup-preview-wrap').style.display='block';
     };
@@ -882,6 +915,8 @@ function restoreBackup(){
   if(!confirm('현재 내용이 선택한 버전으로 교체됩니다. 계속할까요?'))return;
   editor.innerHTML=_selectedBackupHtml;
   try{localStorage.setItem(DRAFT_KEY,_selectedBackupHtml);}catch(e){}
+  skipCount=true;
+  lastCharCount=(editor.innerText||'').replace(/\s/g,'').length;
   closeBackup();onEdit();
 }
 function forceSave(){
