@@ -357,11 +357,11 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
     <div id="settings-tab-replace" style="display:none">
       <div style="font-size:11px;color:var(--grape-sub);margin-bottom:10px">글 전체에 일괄 적용할 치환 규칙을 등록하세요</div>
       <div style="display:flex;gap:6px;align-items:center;margin-bottom:10px">
-        <input id="rep-from" type="text" placeholder="찾을 말" autocomplete="new-password"
+        <input id="rep-from" type="search" placeholder="찾을 말" autocomplete="new-password"
           style="flex:1;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none;min-width:0"
           onkeydown="if(event.key==='Enter')addRepRule()">
         <span style="color:var(--grape-sub);font-size:13px;flex-shrink:0">→</span>
-        <input id="rep-to" type="text" placeholder="바꿀 말" autocomplete="new-password"
+        <input id="rep-to" type="search" placeholder="바꿀 말" autocomplete="new-password"
           style="flex:1;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none;min-width:0"
           onkeydown="if(event.key==='Enter')addRepRule()">
         <button onclick="addRepRule()" style="background:var(--accent);border:none;color:#1a1a1a;border-radius:5px;padding:5px 10px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:bold;flex-shrink:0">추가</button>
