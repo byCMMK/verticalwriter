@@ -357,11 +357,11 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
     <div id="settings-tab-replace" style="display:none">
       <div style="font-size:11px;color:var(--grape-sub);margin-bottom:10px">글 전체에 일괄 적용할 치환 규칙을 등록하세요</div>
       <div style="display:flex;gap:6px;align-items:center;margin-bottom:10px">
-        <input id="rep-from" type="search" placeholder="찾을 말" autocomplete="new-password"
+        <input id="rep-from" type="search" name="rep-from" placeholder="찾을 말" autocomplete="off"
           style="flex:1;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none;min-width:0"
           onkeydown="if(event.key==='Enter')addRepRule()">
         <span style="color:var(--grape-sub);font-size:13px;flex-shrink:0">→</span>
-        <input id="rep-to" type="search" placeholder="바꿀 말" autocomplete="new-password"
+        <input id="rep-to" type="search" name="rep-to" placeholder="바꿀 말" autocomplete="off"
           style="flex:1;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none;min-width:0"
           onkeydown="if(event.key==='Enter')addRepRule()">
         <button onclick="addRepRule()" style="background:var(--accent);border:none;color:#1a1a1a;border-radius:5px;padding:5px 10px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:bold;flex-shrink:0">추가</button>
@@ -376,12 +376,12 @@ body.dark .grape{border-color:rgba(255,255,255,0.04)}
       <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
         <div style="display:flex;align-items:center;gap:6px">
           <span style="font-size:11px;color:var(--grape-sub);width:32px;flex-shrink:0;text-align:right">찾기</span>
-          <input id="srep-find" type="text" placeholder="찾을 말" autocomplete="new-password"
+          <input id="srep-find" type="search" name="srep-find" placeholder="찾을 말" autocomplete="off"
             style="flex:1;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none">
         </div>
         <div style="display:flex;align-items:center;gap:6px">
           <span style="font-size:11px;color:var(--grape-sub);width:32px;flex-shrink:0;text-align:right">→</span>
-          <input id="srep-to" type="text" placeholder="바꿀 말" autocomplete="new-password"
+          <input id="srep-to" type="search" name="srep-to" placeholder="바꿀 말" autocomplete="off"
             style="flex:1;background:var(--grape-input-bg);border:1px solid var(--grape-input-bd);color:var(--grape-text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none">
         </div>
       </div>
@@ -957,6 +957,9 @@ function autoSave(){
     }
   },60000);
 }
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='hidden')forceSave();
+});
 try{const saved=localStorage.getItem(DRAFT_KEY);if(saved)editor.innerHTML=saved;}catch(e){}
 setTimeout(restoreCursorPos,300);
 
