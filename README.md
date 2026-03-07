@@ -1,3 +1,2 @@
 # verticalwriter
-Triangle icon by Norbert Kucsera from Noun Project (CC BY 3.0)
-https://thenounproject.com/icon/triangle-6853103/
+triangle by Norbert Kucsera from <a href="https://thenounproject.com/browse/icons/term/triangle/" target="_blank" title="triangle Icons">Noun Project</a> (CC BY 3.0)
