@@ -2278,7 +2278,7 @@ document.addEventListener('keydown',e=>{
   <div style="position:relative;background:var(--grape-panel-bg);border:1px solid var(--grape-panel-bd);border-radius:14px;width:min(680px,96vw);height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.4);overflow:hidden">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--grape-panel-bd);flex-shrink:0">
       <div style="flex:1;min-width:0">
-        <input id="chapter-viewer-title" onchange="renameChapterFromViewer(this.value)"
+        <input id="chapter-viewer-title" input type="text" autocomplete="new-password" onchange="renameChapterFromViewer(this.value)"
           style="font-family:'Barlow',sans-serif;font-weight:800;font-size:14px;letter-spacing:-.04em;color:var(--accent);background:none;border:none;outline:none;width:100%">
         <input type="text" input id="chapter-viewer-desc" onchange="renameChapterDescFromViewer(this.value)" placeholder="설명 추가..." autocomplete="new-password"
           style="font-size:11px;color:var(--grape-sub);background:none;border:none;outline:none;width:100%;margin-top:2px;font-family:inherit">
