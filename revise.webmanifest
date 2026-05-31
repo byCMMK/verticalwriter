@@ -2,17 +2,13 @@
   "name": "퇴고",
   "short_name": "퇴고",
   "description": "Original / Revised 듀얼 에디터",
-  "start_url": "/revise.html",
-  "display": "fullscreen",
-  "orientation": "landscape",
+  "start_url": "./revise.html",
+  "display": "standalone",
   "background_color": "#1c2028",
   "theme_color": "#1c2028",
+  "orientation": "landscape",
   "icons": [
-    {
-      "src": "favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ]
 }
