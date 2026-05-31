@@ -1,4 +1,4 @@
-const CACHE = 'cmmk-v1';
+const CACHE = 'folio-v1';
 
 self.addEventListener('install', e => {
   self.skipWaiting();
