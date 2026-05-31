@@ -1,8 +1,8 @@
 {
   "name": "CMMK",
   "short_name": "CMMK",
-  "start_url": "./index.html",
-  "display": "standalone",
+  "start_url": "./",
+  "display": "fullscreen",
   "background_color": "#1a1a1a",
   "theme_color": "#1a1a1a",
   "orientation": "any",
