@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>퇴고</title>
+<title>revise</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400&family=Gowun+Dodum&family=Gowun+Batang&family=Nanum+Myeongjo:wght@400;700&family=Nanum+Gothic&family=IBM+Plex+Mono:wght@300;400&family=Barlow:ital,wght@1,800&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
 <style>
@@ -170,7 +170,7 @@ body.chalkboard .pane-header{background:rgba(0,0,0,0.10);}
   <!-- 왼쪽: Original -->
   <span class="lbl">Original</span>
   <button class="tb-btn" onclick="triggerFileLoad('old')">불러오기</button>
-  <button class="tb-btn" onclick="clearPane('old')">Clear</button>
+  <button class="tb-btn" onclick="clearPane('old')">비우기</button>
 
   <div class="tb-spacer"></div>
 
@@ -182,7 +182,7 @@ body.chalkboard .pane-header{background:rgba(0,0,0,0.10);}
   <div class="sep"></div>
   <button class="tb-btn" onclick="openSaveModal()">저장</button>
   <div class="sep"></div>
-  <button class="tb-btn" id="space-btn" onclick="toggleSpaceCount()">공백 제외</button>
+  <button class="tb-btn" id="space-btn" onclick="toggleSpaceCount()">공백 설정</button>
   <div class="sep"></div>
 
   <!-- 글꼴 드롭다운 -->
@@ -233,7 +233,7 @@ body.chalkboard .pane-header{background:rgba(0,0,0,0.10);}
 
   <!-- 오른쪽: Revised (Load/Clear 먼저, 레이블 맨 끝) -->
   <button class="tb-btn" onclick="triggerFileLoad('new')">불러오기</button>
-  <button class="tb-btn" onclick="clearPane('new')">Clear</button>
+  <button class="tb-btn" onclick="clearPane('new')">비우기</button>
   <span class="lbl">Revised</span>
 </div>
 
