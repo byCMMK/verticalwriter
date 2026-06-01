@@ -1333,7 +1333,7 @@ function deleteChapterItem(id){
     try{localStorage.removeItem(ACTIVE_CHAPTER_KEY);}catch(e){}
     editor.innerHTML='';
     const lbl=document.getElementById('brand-label');
-    if(lbl)lbl.textContent='CMMK';
+    if(lbl)lbl.textContent='Folio';
     updateEditorActiveState();
   }
   renderChapterList();
@@ -1534,7 +1534,7 @@ function updateEditorActiveState(){
   editor.contentEditable=hasChapter?'true':'false';
   const placeholder=document.getElementById('editor-placeholder');
   if(placeholder)placeholder.style.display=hasChapter?'none':'flex';
-  if(!hasChapter){const lbl=document.getElementById('brand-label');if(lbl)lbl.textContent='CMMK';}
+  if(!hasChapter){const lbl=document.getElementById('brand-label');if(lbl)lbl.textContent='Folio';}
 }
 function setActiveChapter(id){
   const chapters=flatChapters(loadChapters());
@@ -1558,7 +1558,7 @@ function setActiveChapter(id){
   lastCharCount=loadedText.length; // 포도알용 - 공백 포함 고정
   // 툴바 챕터명 업데이트
   const lbl=document.getElementById('brand-label');
-  if(lbl)lbl.textContent=c.name?`\u2039 ${c.name} \u203a`:'CMMK';
+  if(lbl)lbl.textContent=c.name?`\u2039 ${c.name} \u203a`:'Folio';
   // 에디터 활성화 및 챕터 리스트 갱신
   updateEditorActiveState();
   renderChapterList();
@@ -1963,7 +1963,7 @@ try{
       const text=loadChapterText(lastId);
       textToEditor(text);
       const lbl=document.getElementById('brand-label');
-      if(lbl)lbl.textContent=c.name?`\u2039 ${c.name} \u203a`:'CMMK';
+      if(lbl)lbl.textContent=c.name?`\u2039 ${c.name} \u203a`:'Folio';
     }
   }
   updateEditorActiveState();
